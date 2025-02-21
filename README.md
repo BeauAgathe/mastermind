@@ -1,3 +1,5 @@
+je sais pas comment on fait pour avoir ça sur VScode 
+
 # Pour ceux qui savent pas comment faire un projet:
 
 Déja avant de commencer à programmer faut faire un plan de notre programme pour avoir une idée de comment on va s'organiser.
