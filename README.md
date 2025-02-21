@@ -6,6 +6,8 @@ Déja avant de commencer à programmer faut faire un plan de notre programme pou
 Il faut minimum deux fichiers donc je pense que c'est bien si on en fait un pour gérer l'interface graphique 
 et un autre pour le déroulement du jeu (je l'ai appelé "main").
 
+par contre je sais plus comment on fait pour relier les deux fichiers faudra chercher
+
 sur le fichier "main" il faut:
 -
 - une fonction qui génère un code couleur secret aléatoire (sous forme de liste?)
