@@ -1,4 +1,3 @@
-je sais pas comment on fait pour avoir ça sur VScode 
 
 # Pour ceux qui savent pas comment faire un projet:
 
