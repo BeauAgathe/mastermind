@@ -1,1 +1,8 @@
 '''interface'''
+
+import tkinter as tk
+
+# on créé une fenêtre qui s'appelle Mastermind
+racine = tk.Tk()
+racine.title("Mastermind")
+racine.mainloop()
