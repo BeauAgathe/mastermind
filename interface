@@ -5,4 +5,5 @@ import tkinter as tk
 # nouvelle fenêtre racine
 racine = tk.Tk()
 racine.title("Mastermind")
+racine.geometry("1200x700")
 racine.mainloop()
