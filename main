@@ -1,3 +1,12 @@
 '''main'''
 
-print("test")
+import random as rd
+
+couleurs = ["rouge", "bleu", "jaune", "vert", "blanc", "noir"]
+
+
+def creer_code_secret():
+    code_secret = []
+    while len(code_secret) < 5:
+        code_secret.append(couleurs[rd.randint(0, 5)])
+    return code_secret
