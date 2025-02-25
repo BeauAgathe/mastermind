@@ -12,9 +12,13 @@ def creer_code_secret():
     return code_secret
 
 
-def comparer_code_secret_&codedejoueurs:
-    couleur_du_joueurs=list(input("Choisissez quatre couleur")
-    if couelur_du_joueur == code_secret:
-       print("CODE CORRECT")
+def comparer_code_secret_&couleur_de_joueur(couleur_de_joueur):
+    couleur_du_joueur = list(input("Choisissez six couleur")
+    if couleur_du_joueur == code_secret:
+       print("CODE CORRECT!")
+    else:
+        print("CODE INCORRECT! Reessayez, le succes commence apres pluesiers echec"
+
+def jouer_mastermind(couleur_de_joueur):
 
     
