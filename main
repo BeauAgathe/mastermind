@@ -2,23 +2,51 @@
 
 import random as rd
 
+# les couleurs qu'on peut utiliser dans le jeu:
 couleurs = ["rouge", "bleu", "jaune", "vert", "blanc", "noir"]
 
+# variable qui dit quand le joueur a gagné:
+gagne = False
 
+
+# l'ordinateur créé aléatoirement un code couleur secret en utilisant random
 def creer_code_secret():
-    code_secret = []
-    while len(code_secret) < 5:
-        code_secret.append(couleurs[rd.randint(0, 5)])
-    return code_secret
+    """fabrique aléatoirement un code couleur à deviner"""
+    le_code_secret = []
+    while len(le_code_secret) < 5:
+        le_code_secret.append(couleurs[rd.randint(0, 5)])
+    return le_code_secret
 
 
-def comparer_code_secret_&couleur_de_joueur(couleur_de_joueur):
-    couleur_du_joueur = list(input("Choisissez six couleur")
-    if couleur_du_joueur == code_secret:
-       print("CODE CORRECT!")
+# on demande au joueur de choisir un code couleur
+def demande_code_joueur_terminal():
+    code = []
+    while len(code) < 5:
+        couleur = input("choisir une couleur")
+        if couleur in couleurs:
+            print(couleur)
+            code.append(couleur)
+        else:
+            print("cette couleur n'existe pas")
+    return code
+
+
+# on compare le code du joueur et le code secret pour voir si le joueur a gagné
+def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
+    """vérifie si le code donné par le joueur est bon"""
+    code_du_joueur = list(input("Choisissez six couleur"))
+    if code_du_joueur == le_code_secret:
+        print("CODE CORRECT!")
+        return True
     else:
-        print("CODE INCORRECT! Reessayez, le succes commence apres plusieurs echec"
+        print("CODE INCORRECT!")
+        print("Réessayez, le succès commence après plusieurs échecs")
+        return False
 
-def jouer_mastermind(couleur_de_joueur):
 
-    
+# déroulement de la partie:
+code_secret = creer_code_secret()
+while gagne is False:
+    code_joueur = demande_code_joueur_terminal()
+    if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is True:
+        gagne = True
