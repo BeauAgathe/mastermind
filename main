@@ -34,7 +34,7 @@ def demande_code_joueur_terminal():
 # on compare le code du joueur et le code secret pour voir si le joueur a gagné
 def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
     """vérifie si le code donné par le joueur est bon"""
-    code_du_joueur = list(input("Choisissez six couleur"))
+    print(code_du_joueur)
     if code_du_joueur == le_code_secret:
         print("CODE CORRECT!")
         return True
@@ -44,9 +44,28 @@ def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
         return False
 
 
+# on compare les couleurs entre le code du joueur et le code secret
+def compare_couleurs(codejoueur, codesecret):
+    """regarde la couleur et l'emplacement de chaque element du code joueur"""
+    numero = 0
+    reponse = []
+    for element in codejoueur:
+        numero += 1
+        for i in range(len(codesecret)):
+            if element == codesecret[i]:
+                reponse.append("la couleur ", numero, " est dans le code secret")
+                if i == numero - 1:
+                    reponse.append("la couleur ", numero, " est au bon emplacement")
+            else:
+                reponse.append("la couleur ", numero, " n'est pas dans le code secret")
+    return reponse
+
+
 # déroulement de la partie:
 code_secret = creer_code_secret()
 while gagne is False:
     code_joueur = demande_code_joueur_terminal()
+    resultat = compare_couleurs(code_joueur, code_secret)
+    print(resultat)
     if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is True:
         gagne = True
