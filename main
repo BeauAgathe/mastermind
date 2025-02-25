@@ -10,6 +10,8 @@ def creer_code_secret():
     while len(code_secret) < 5:
         code_secret.append(couleurs[rd.randint(0, 5)])
     return code_secret
+
+
 def comparer_code_secret_&codedejoueurs:
     couleur_du_joueurs=list(input("Choisissez quatre couleur")
     if couelur_du_joueur == code_secret:
