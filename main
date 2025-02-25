@@ -17,7 +17,7 @@ def comparer_code_secret_&couleur_de_joueur(couleur_de_joueur):
     if couleur_du_joueur == code_secret:
        print("CODE CORRECT!")
     else:
-        print("CODE INCORRECT! Reessayez, le succes commence apres pluesiers echec"
+        print("CODE INCORRECT! Reessayez, le succes commence apres plusieurs echec"
 
 def jouer_mastermind(couleur_de_joueur):
 
