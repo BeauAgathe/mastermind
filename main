@@ -48,24 +48,24 @@ def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
 def compare_couleurs(codejoueur, codesecret):
     """regarde la couleur et l'emplacement de chaque element du code joueur"""
     numero = 0
-    reponse = []
     for element in codejoueur:
         numero += 1
+        reponse = 0
         for i in range(len(codesecret)):
             if element == codesecret[i]:
-                reponse.append("la couleur ", numero, " est dans le code secret")
+                reponse = 1
                 if i == numero - 1:
-                    reponse.append("la couleur ", numero, " est au bon emplacement")
-            else:
-                reponse.append("la couleur ", numero, " n'est pas dans le code secret")
-    return reponse
+                    reponse = 2
+                if reponse == 2:
+                    print("la couleur ", numero, " est au bon emplacement")
+        if reponse > 0:
+            print("la couleur ", numero, " est dans le code secret")
 
 
 # déroulement de la partie:
 code_secret = creer_code_secret()
 while gagne is False:
     code_joueur = demande_code_joueur_terminal()
-    resultat = compare_couleurs(code_joueur, code_secret)
-    print(resultat)
+    compare_couleurs(code_joueur, code_secret)
     if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is True:
         gagne = True
