@@ -22,7 +22,7 @@ def creer_code_secret():
 def demande_code_joueur_terminal():
     code = []
     while len(code) < 5:
-        couleur = input("choisir une couleur")
+        couleur = input("choisir une couleur: ")
         if couleur in couleurs:
             print(couleur)
             code.append(couleur)
