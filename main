@@ -22,7 +22,7 @@ def creer_code_secret():
 def demande_code_joueur_terminal():
     code = []
     while len(code) < 5:
-        couleur = input("choisir une couleur")
+        couleur = input("choisir une couleur: ")
         if couleur in couleurs:
             print(couleur)
             code.append(couleur)
@@ -64,8 +64,12 @@ def compare_couleurs(codejoueur, codesecret):
 
 # déroulement de la partie:
 code_secret = creer_code_secret()
-while gagne is False:
+compteur = 0
+while gagne is False and compteur < 12:
+    print("Vous avez", 12-compteur, "essais")
+    compteur +=1
     code_joueur = demande_code_joueur_terminal()
     compare_couleurs(code_joueur, code_secret)
     if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is True:
         gagne = True
+print("Plus d'essais, vous avez perdu!")
