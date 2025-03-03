@@ -72,4 +72,6 @@ while gagne is False and compteur < 12:
     compare_couleurs(code_joueur, code_secret)
     if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is True:
         gagne = True
-print("Plus d'essais, vous avez perdu!")
+
+if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is not True:
+    print("Plus d'essais, vous avez perdu!")
