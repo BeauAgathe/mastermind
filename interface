@@ -1,12 +1,25 @@
 '''interface'''
 
 import tkinter as tk
-
 # nouvelle fenêtre racine
 racine = tk.Tk()
 racine.title("Mastermind")
 racine.geometry("1200x700")
+
+canva=tk.Canvas(racine, width =400 , height = 50, bg="pink" )
+canva.grid(row=0, column=2)
+canva=tk.Canvas(racine, width =400 , height = 50, bg="pink" )
+canva.grid(row=1, column=2)
+canva=tk.Canvas(racine, width =400 , height = 50, bg="pink" )
+canva.grid(row=2, column=2)
+canva=tk.Canvas(racine, width =400 , height = 50, bg="pink" )
+canva.grid(row=3, column=2)
+canva=tk.Canvas(racine, width =400 , height = 50, bg="pink" )
+canva.grid(row=4, column=2)
+canva=tk.Canvas(racine, width =400 , height = 50, bg="pink" )
+canva.grid(row=5, column=2)
+
+
+
 racine.mainloop()
 
-
-#helllooooooo
