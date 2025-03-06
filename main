@@ -47,19 +47,11 @@ def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
 # on compare les couleurs entre le code du joueur et le code secret
 def compare_couleurs(codejoueur, codesecret):
     """regarde la couleur et l'emplacement de chaque element du code joueur"""
-    numero = 0
-    for element in codejoueur:
-        numero += 1
-        reponse = 0
-        for i in range(len(codesecret)):
-            if element == codesecret[i]:
-                reponse = 1
-                if i == numero - 1:
-                    reponse = 2
-                if reponse == 2:
-                    print("la couleur ", numero, " est au bon emplacement")
-        if reponse > 0:
-            print("la couleur ", numero, " est dans le code secret")
+    for i in range(5):
+        if codejoueur[i] == codesecret[i]:
+            print("la couleur ", i + 1, " est la bonne couleur au bon emplacement")
+        elif codejoueur[i] in codesecret:
+            print("la couleur ", i + 1, " est dans le code secret mais pas au bon emplacement")
 
 
 # déroulement de la partie:
@@ -67,7 +59,7 @@ code_secret = creer_code_secret()
 compteur = 0
 while gagne is False and compteur < 12:
     print("Vous avez", 12-compteur, "essais")
-    compteur +=1
+    compteur += 1
     code_joueur = demande_code_joueur_terminal()
     compare_couleurs(code_joueur, code_secret)
     if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is True:
