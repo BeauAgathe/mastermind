@@ -6,12 +6,12 @@ import random as rd
 couleurs = ["rouge", "bleu", "jaune", "vert", "blanc", "noir"]
 
 # variable qui dit quand le joueur a gagné:
-gagne = False
+GAGNE = False
 
 
 # l'ordinateur créé aléatoirement un code couleur secret en utilisant random
 def creer_code_secret():
-    """fabrique aléatoirement un code couleur à deviner"""
+    '''fabrique aléatoirement un code couleur à deviner'''
     le_code_secret = []
     while len(le_code_secret) < 5:
         le_code_secret.append(couleurs[rd.randint(0, 5)])
@@ -19,7 +19,8 @@ def creer_code_secret():
 
 
 # on demande au joueur de choisir un code couleur
-def demande_code_joueur_terminal():
+def demande_code_joueur_terminal() -> list:
+    '''joueur ecrit les couleurs une par une dans le terminal'''
     code = []
     while len(code) < 5:
         couleur = input("choisir une couleur: ")
@@ -33,7 +34,7 @@ def demande_code_joueur_terminal():
 
 # on compare le code du joueur et le code secret pour voir si le joueur a gagné
 def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
-    """vérifie si le code donné par le joueur est bon"""
+    '''vérifie si le code donné par le joueur est bon'''
     print(code_du_joueur)
     if code_du_joueur == le_code_secret:
         print("CODE CORRECT!")
@@ -45,25 +46,27 @@ def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
 
 
 # on compare les couleurs entre le code du joueur et le code secret
-def compare_couleurs(codejoueur, codesecret):
-    """regarde la couleur et l'emplacement de chaque element du code joueur"""
+def compare_couleurs(codejoueur, codesecret) -> None:
+    '''regarde la couleur et l'emplacement de chaque element du code joueur'''
     for i in range(5):
         if codejoueur[i] == codesecret[i]:
-            print("la couleur ", i + 1, " est la bonne couleur au bon emplacement")
+            print("la couleur ", i + 1,
+                  " est la bonne couleur au bon emplacement")
         elif codejoueur[i] in codesecret:
-            print("la couleur ", i + 1, " est dans le code secret mais pas au bon emplacement")
+            print("la couleur ", i + 1,
+                  " est dans le code secret mais pas au bon emplacement")
 
 
 # déroulement de la partie:
 code_secret = creer_code_secret()
-compteur = 0
-while gagne is False and compteur < 12:
-    print("Vous avez", 12-compteur, "essais")
-    compteur += 1
+COMPTEUR = 0
+while GAGNE is False and COMPTEUR < 12:
+    print("Vous avez", 12-COMPTEUR, "essais")
+    COMPTEUR += 1
     code_joueur = demande_code_joueur_terminal()
     compare_couleurs(code_joueur, code_secret)
     if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is True:
-        gagne = True
+        GAGNE = True
 
 if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is not True:
     print("Plus d'essais, vous avez perdu!")
