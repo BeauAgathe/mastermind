@@ -3,6 +3,19 @@
 import tkinter as tk
 
 
+# nouvelle fenêtre racine
+def interface_du_mastermind():
+    '''génère une nouvelle interface vide'''
+    racine = tk.Tk()
+    racine.title("Mastermind")
+    racine.geometry("1200x700")
+    create_canvas(racine)
+    create_buttons(racine)
+    racine.mainloop()
+    return racine
+
+
+# les canvas roses où le joueur place son code
 def create_canvas(racine):
     '''fabrique les 12 canvas avec les emplacements dedans'''
     for i in range(12):
@@ -15,6 +28,7 @@ def create_canvas(racine):
                               centre_x - 15, centre_y - 15, outline="white")
 
 
+# les boutons qui génèrent les couleures pour le code cu joueur
 def create_buttons(racine):
     '''fabrique les boutons pour chaque couleur'''
     boutton_cercle1 = tk.Button(racine, text="rouge", font="red")
@@ -29,17 +43,3 @@ def create_buttons(racine):
     boutton_cercle5.grid(row=4, column=3)
     boutton_cercle6 = tk.Button(racine, text="vert", font="green")
     boutton_cercle6.grid(row=5, column=3)
-
-
-# nouvelle fenêtre racine
-def interface_du_mastermind():
-    '''génère une nouvelle interface vide'''
-    racine = tk.Tk()
-    racine.title("Mastermind")
-    racine.geometry("1200x700")
-    create_canvas(racine)
-    create_buttons(racine)
-    racine.mainloop()
-
-
-interface_du_mastermind()
