@@ -39,11 +39,11 @@ clicked_colors=[]
 def change_couleur_cercle(couleur_boutton):
     if len(clicked_colors)<4:
        clicked_colors.append(couleur_boutton)
-       for i, canva in enumerate(canvas):
-         for j, circle in enumerate(circles):
-          for k in range(4):
-            canva.itemconfig(empty_circles[i][j][k], fill= clicked_colors[i])
-            #A revoir, cette fonction ne marche pas comme prevu.
+       for i in range(min(len(clicked_colors),4)):
+          canva=canvas[i]
+          for j in range(min(len(clicked_colors),4)):
+             canva.itemconfig(empty_circles[i][j], fill= clicked_colors[j])
+              #A revoir, cette focntion ne marche pas comme attendu
   
   
 
