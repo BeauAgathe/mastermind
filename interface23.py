@@ -1,0 +1,70 @@
+'''interface'''
+
+import tkinter as tk
+import random as rd
+
+
+# nouvelle fenêtre racine
+racine = tk.Tk()
+racine.title("Mastermind")
+racine.geometry("1200x700")
+
+canvas=[]
+for i in range(6):
+ canva=tk.Canvas(racine, width =400 , height = 50, bg="saddlebrown" )
+ canva.grid(row=i+1, column=2)
+ canvas.append(canva)
+
+
+def draw_empty_circle(x, y, radius, canva):
+    """Draws an empty circle in canva"""
+    canva.create_oval(x - radius, y - radius, x + radius, y + radius, outline="black", width=2)
+x_beginning=40
+y_cercle=25
+space=80
+for canva in canvas:
+   for i in range(4):
+    draw_empty_circle(x_beginning+i*space, y_cercle, 20, canva)
+
+boutton_cercle1 = tk.Button(racine, bg='white')
+boutton_cercle1.grid(row=1, column=3)
+boutton_cercle2 = tk.Button(racine,bg='black')
+boutton_cercle2.grid(row=2, column=3)
+boutton_cercle3 = tk.Button(racine,  bg='red')
+boutton_cercle3.grid(row=3, column=3)
+boutton_cercle4 = tk.Button(racine, bg='green')
+boutton_cercle4.grid(row=4, column=3)
+boutton_cercle5 = tk.Button(racine, bg='yellow')
+boutton_cercle5.grid(row=5, column=3)
+boutton_cercle6 = tk.Button(racine, bg='blue')
+boutton_cercle6.grid(row=6, column=3)
+
+
+white = (200, 200, 200)
+black = (30, 30, 30)
+green = (0, 210, 0)
+blue= (0, 0, 200)
+red = (210, 0, 0)
+yellow = (210, 210, 0)
+colors=(white,black, green, blue, red, yellow )
+
+    
+def draw_color_button(color)->None:
+    center_x=rd.randint(10,700-50)
+    center_y=rd.randint(10,1200-50)
+    hex_color = f'#{color[0]:02x}{color[1]:02x}{color[2]:02x}'
+    canva.create_oval(center_x,center_y,center_x+1,center_y, outline=hex_color, fill=hex_color)
+    for i in range(6):
+     button_cercle=tk.Button(racine, command=draw_color_button, bg=color)
+     button_cercle.grid(row=i, column=3, bg=color)
+    #something's wrong with this function
+
+
+
+   
+
+
+racine.mainloop()
+
+
+#test
