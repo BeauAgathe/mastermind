@@ -37,17 +37,18 @@ for canva in canvas:
     empty_circles.append(circles)
 clicked_colors=[]
 def change_couleur_cercle(couleur_boutton):
+    global current_canva, current_circle
     if len(clicked_colors)<4:
        clicked_colors.append(couleur_boutton)
-       for i in range(min(len(clicked_colors),4)):
-          canva=canvas[i]
-          for j in range(min(len(clicked_colors),4)):
-             canva.itemconfig(empty_circles[i][j], fill= clicked_colors[j])
-              #A revoir, cette focntion ne marche pas comme attendu
+       if current_canva < len(canvas):
+          canva=canvas[current_canva]
+          canva.itemconfig(empty_circles[current_canva][current_circle], fill= clicked_colors[-1])
+          current_circle+=1
+          if current_circle==4:
+            current_canva+=1 
+            clicked_colors.clear()
+            current_circle=0
   
-  
-
-
 boutton1 = tk.Button(racine, bg='white',command=lambda:change_couleur_cercle('white'))
 boutton1.grid(row=1, column=3)
 boutton2 = tk.Button(racine,bg='black', command=lambda:change_couleur_cercle('black'))
