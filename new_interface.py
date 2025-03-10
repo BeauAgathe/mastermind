@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 '''interface'''
 
 import tkinter as tk
@@ -149,6 +148,3 @@ def create_buttons(racine):
     boutton_cercle5.grid(row=4, column=3)
     boutton_cercle6 = tk.Button(racine, text="vert", font="green")
     boutton_cercle6.grid(row=5, column=3)
-=======
-'''faut supprimer ce fichier'''
->>>>>>> 868e6a0e0fa4870cd46b76aab13d04d28ad7eb7b
