@@ -153,11 +153,19 @@ def create_buttons(racine):
 ###############################################################################################
 import tkinter as tk
 import random as rd
+from tkinter import PhotoImage,Image
 
 # nouvelle fenêtre racine
 racine = tk.Tk()
 racine.title("Mastermind")
 racine.geometry("1200x1000")
+#cree l'image
+play_button=Image.open('Bilder/play button.png')
+play_button=PhotoImage(play_button)
+
+#Cree le label
+play_label=tk.label(racine, image=play_button, bd=2, relief='raised')
+play_label.pack(pady=20)
 
 canvas = []
 empty_circles = []
@@ -207,7 +215,7 @@ def change_couleur_cercle(couleur_boutton):
         clicked_colors.append(couleur_boutton)
     if current_canva < len(canvas):
         canva = canvas[current_canva]
-        canva.itemconfig(empty_circles[current_canva][current_circle], fill=clicked_colors[-1])# clicked colors est une liste des couleur du code du joueru qui se remplit au fur et a mesure du choix des couleurs.
+        canva.itemconfig(empty_circles[current_canva][current_circle], fill=clicked_colors[-1])# clicked colors est une liste des couleur du code du joueur qui se remplit au fur et a mesure du choix des couleurs.
         current_circle += 1
         if current_circle == 4:
             correct_positions, misplaced_positions = compare_codes(clicked_colors, secret_code)
@@ -256,22 +264,22 @@ def create_secret_code_input():
     input_canvas.grid(row=0, column=2)
     input_circles = []
     for i in range(4):
-        circle = draw_empty_circle(40 + i * 80, 25, 20, input_canvas)
+        circle = draw_empty_circle(40 + i * 80, 25, 20, input_canvas)# tracer 4 cercles vide en partant de la gauche
         input_circles.append(circle)
     input_colors = []
     def set_secret_code(couleur_boutton):
         if len(input_colors) < 4:
             input_colors.append(couleur_boutton)
-            input_canvas.itemconfig(input_circles[len(input_colors) - 1], fill=couleur_boutton)
+            input_canvas.itemconfig(input_circles[len(input_colors) - 1], fill=couleur_boutton)#change la couleur du cercle concernee pr la couleur.
         if len(input_colors) == 4:
             global secret_code
             secret_code = input_colors
             print("Secret code set:", secret_code)  # For debugging purposes
-            input_canvas.destroy()
+            input_canvas.destroy()# recommencer la partie
     for i, color in enumerate(colors):
         button = tk.Button(racine, bg=color, command=lambda c=color: set_secret_code(c))
         button.grid(row=i+1, column=5)
 
-tk.Button(racine, text="Welcome to Mastermind", command=start_one_player_mode).grid(row=0, column=0)
+tk.Button(racine, text="Welcome to Mastermind", command=start_one_player_mode).grid(row=9, column=9)
 
 racine.mainloop()
