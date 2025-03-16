@@ -169,18 +169,19 @@ secret_code = []
 colors = ['white', 'black', 'red', 'green', 'yellow', 'blue']
 
 def draw_empty_circle(x, y, rayon, canva):
-    """Draws an empty circle in canva"""
-    return canva.create_oval(x - rayon, y - rayon, x + rayon, y + rayon, outline="black", width=2)
+    """Dessine un cercle vide dans le canva"""
+    return canva.create_oval(x - rayon, y - rayon, x + rayon, y + rayon, outline="purple", width=2)
 
 def setup():
+    """Cree les canavas"""
     global canvas, empty_circles, clicked_colors, current_canva, current_circle
     canvas = []
     empty_circles = []
     clicked_colors = []
     current_canva = 0
     current_circle = 0
-    for widget in racine.winfo_children():
-        widget.destroy()
+    for widget in racine.winfo_children(): #prend tout les widget dans racine.(boutons, canvas...)
+        widget.destroy()#supprime les widget de la fenetre.
     for i in range(10):
         canva = tk.Canvas(racine, width=400, height=80, bg="pink")
         canva.grid(row=i+1, column=2)
@@ -194,34 +195,38 @@ def setup():
             circle = draw_empty_circle(x_beginning + i * space, y_cercle, 30, canva)
             circles.append(circle)
         empty_circles.append(circles)
-    create_color_buttons()
+    create_color_buttons()    
 
 def create_color_buttons():
-    for i, color in enumerate(colors):
-        button = tk.Button(racine, bg=color, command=lambda c=color: change_couleur_cercle(c))
-        button.grid(row=i+1, column=4)
+    """Cree les boutons de couleur"""
+    for i, color in enumerate(colors): #parcourie la liste couleurs en associaint a chaque element son indice.(sa position dans la liste.)
+        button = tk.Button(racine, bg=color, command=lambda c=color: changer_couleur_cercle(c))
+        button.grid(row=i+1, column=4) 
 
-def change_couleur_cercle(couleur_boutton):
+def changer_couleur_cercle(couleur_boutton):
     global current_canva, current_circle
     if len(clicked_colors) < 4:
         clicked_colors.append(couleur_boutton)
     if current_canva < len(canvas):
         canva = canvas[current_canva]
         canva.itemconfig(empty_circles[current_canva][current_circle], fill=clicked_colors[-1])# clicked colors est une liste des couleur du code du joueru qui se remplit au fur et a mesure du choix des couleurs.
+        #changer les proprietes du premier cercle dans le premier canva puis passer au suivant.
         current_circle += 1
         if current_circle == 4:
-            correct_positions, misplaced_positions = compare_codes(clicked_colors, secret_code)
+            correct_positions, misplaced_positions = comparer_codes(clicked_colors, secret_code)
             display_feedback(correct_positions, misplaced_positions, current_canva)
             if correct_positions == 4:
-                print("You win!")
+                print("You are a champion")
             elif current_canva == 9:
-                print("Out of attempts!")
+                print("Out of attemps, GAME OVER")
             current_canva += 1
             clicked_colors.clear()
-            current_circle = 0
+            current_circle = 0 #recommence un nouveau essai dans le prochain canva.
+  
 
-def compare_codes(guess, secret):
-    correct_positions = sum([1 for i in range(4) if guess[i] == secret[i]])
+def comparer_codes(guess, secret):
+    """Compare le imput_code du jouer avec le code genere aleatoirement par le jeu(compare la couleur et la position)"""
+    correct_positions = sum([1 for i in range(4) if guess[i] == secret[i]]) #va rajouter 1 a chaque qu'une couleur est dans la bonne position.
     misplaced_positions = 0
     secret_copy = secret[:]
     guess_copy = guess[:]
@@ -244,34 +249,11 @@ def display_feedback(correct, misplaced, row):
         feedback_canvas.create_oval(10 + (correct + i) * 20, 10, 30 + (correct + i) * 20, 30, fill="white")
 
 def start_one_player_mode():
+    """Le code secret est genere aleatoirement par le jeu, et le joueur doit le deviner"""
     global secret_code
     secret_code = [rd.choice(colors) for _ in range(4)]
     #print(secret_code)
     setup()
-
-
-
-def create_secret_code_input():
-    input_canvas = tk.Canvas(racine, width=400, height=50, bg="pink")
-    input_canvas.grid(row=0, column=2)
-    input_circles = []
-    for i in range(4):
-        circle = draw_empty_circle(40 + i * 80, 25, 20, input_canvas)
-        input_circles.append(circle)
-    input_colors = []
-    def set_secret_code(couleur_boutton):
-        if len(input_colors) < 4:
-            input_colors.append(couleur_boutton)
-            input_canvas.itemconfig(input_circles[len(input_colors) - 1], fill=couleur_boutton)
-        if len(input_colors) == 4:
-            global secret_code
-            secret_code = input_colors
-            print("Secret code set:", secret_code)  # For debugging purposes
-            input_canvas.destroy()
-    for i, color in enumerate(colors):
-        button = tk.Button(racine, bg=color, command=lambda c=color: set_secret_code(c))
-        button.grid(row=i+1, column=5)
-
 tk.Button(racine, text="Welcome to Mastermind", command=start_one_player_mode).grid(row=0, column=0)
 
 racine.mainloop()
