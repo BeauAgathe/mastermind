@@ -216,15 +216,13 @@ def changer_couleur_cercle(couleur_boutton):
             correct_positions, misplaced_positions = comparer_codes(clicked_colors, secret_code)
             display_feedback(correct_positions, misplaced_positions, current_canva)
             if correct_positions == 4:
-                label_message.config(text="CORRECT CODE, You're a champion", fg="green")
+                print("You are a champion")
             elif current_canva == 9:
-                label_message.config(text="Out of attempts, GAME OVER", fg="red")
+                print("Out of attemps, GAME OVER")
             current_canva += 1
             clicked_colors.clear()
             current_circle = 0 #recommence un nouveau essai dans le prochain canva.
-        
-label_message=tk.Label(racine, text="", font=(("Arial"),15))
-label_message.grid(row=8, column=3)
+  
 
 def comparer_codes(guess, secret):
     """Compare le imput_code du jouer avec le code genere aleatoirement par le jeu(compare la couleur et la position)"""
