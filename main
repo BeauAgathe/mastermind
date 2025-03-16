@@ -23,13 +23,13 @@ current_circle = 0
 def creer_code_secret():
     '''fabrique aléatoirement un code couleur à deviner'''
     le_code_secret = []
-    while len(le_code_secret) < 5:
+    while len(le_code_secret) < 4:
         le_code_secret.append(couleurs[rd.randint(0, 5)])
     return le_code_secret
 
 
 # on demande au joueur de choisir un code couleur
-def demande_code_joueur_terminal() -> list:
+def demande_code_joueur_terminal():
     '''joueur ecrit les couleurs une par une dans le terminal'''
     code = []
     while len(code) < 5:
@@ -42,27 +42,23 @@ def demande_code_joueur_terminal() -> list:
     return code
 
 
-# on compare le code du joueur et le code secret pour voir si le joueur a gagné
-def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
-    '''vérifie si le code donné par le joueur est bon'''
-    if code_du_joueur == le_code_secret:
-        return True
-    else:
-        return False
-
-
 # on compare les couleurs entre le code du joueur et le code secret
 def compare_couleurs(codejoueur, codesecret):
     '''regarde la couleur et l'emplacement de chaque element du code joueur'''
     if codejoueur == codesecret:
-        print("BRAVO, c'est gagné!")
-    for i in range(4):
-        if codejoueur[i] == codesecret[i]:
-            print("la couleur ", i + 1,
-                  " est la bonne couleur au bon emplacement")
-        elif codejoueur[i] in codesecret:
-            print("la couleur ", i + 1,
-                  " existe mais n'est pas au bon emplacement")
+        affiche_texte("BRAVO, c'est gagné!")
+        global GAGNE
+        GAGNE = True
+    else:
+        reponse = ""
+        for i in range(4):
+            if codejoueur[i] == codesecret[i]:
+                reponse += "\n la couleur " + str(i + 1) + " est la bonne couleur au bon emplacement"
+            elif codejoueur[i] in codesecret:
+                reponse += "\n la couleur " + str(i + 1) + " existe mais n'est pas au bon emplacement"
+            else:
+                reponse += "\n la couleur " + str(i + 1) + " n'est pas dans le code secret"
+        affiche_texte(reponse)
 
 
 # les canvas roses où le joueur place son code
@@ -116,10 +112,23 @@ def create_buttons():
         button.grid(row=i+1, column=4)
 
 
+def create_texte():
+    '''pour créer un label qui affiche les textes'''
+    global label
+    label = tk.Label(racine, text="")
+    label.grid(column=5, row=0, rowspan=8)
+
+
+def affiche_texte(texte):
+    '''change le texte dans le label'''
+    label.configure(text=texte)
+
+
 # fonction qui commence une nouvelle partie
 def nouvelle_partie():
     '''on réinitialise la fenêtre et
     recommence une partie avec nouveau code secret'''
+    global GAGNE
     GAGNE = False
     global code_secret
     code_secret = creer_code_secret()
@@ -133,11 +142,12 @@ def nouvelle_partie():
         widget.destroy()
     create_canvas(racine)
     create_buttons()
+    create_texte()
     if GAGNE is True:
-        print("Gagné! Bravo")
+        affiche_texte("Gagné! Bravo")
         return None
     if current_canva == len(canvas) and GAGNE is False:
-        print("Perdu!")
+        affiche_texte("Perdu!")
         return None
 
 
