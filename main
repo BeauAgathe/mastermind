@@ -180,6 +180,6 @@ def nouvelle_partie():
         return None
 
 
-tk.Button(racine, text="Welcome to Mastermind",
-          command=nouvelle_partie).grid(row=1, column=1)
+tk.Button(racine, text="Welcome to Mastermind", background = "pink", font = ("Helvetica Black",12), foreground = "maroon",
+          command=nouvelle_partie).place(relx=0.42, rely=0.455)
 racine.mainloop()
