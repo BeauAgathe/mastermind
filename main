@@ -171,6 +171,9 @@ def nouvelle_partie():
         widget.destroy()
     create_canvas(racine)
     create_buttons()
+    tk.Button(racine, text="Retour",command=retour()).grid(row=7, column=5)
+    tk.Button(racine, text="Rejouer",    #Marias ref
+          command=nouvelle_partie).grid(row=8, column=5)
     create_texte()
     if GAGNE is True:
         affiche_texte("Gagné! Bravo")
@@ -178,8 +181,25 @@ def nouvelle_partie():
     if current_canva == len(canvas) and GAGNE is False:
         affiche_texte("Perdu!")
         return None
+    
 
+def retour():
+    """Fonction qui permet de retourner en arriere"""
+    global clicked_colors, current_circle, canvas
+    if clicked_colors==[]:
+        return None
+    else:
+        clicked_colors.pop()
+        current_circle-=1 
+        canvas[current_canva].itemconfig(empty_circles[current_canva][current_circle],
+                         fill="pink")   
 
 tk.Button(racine, text="Welcome to Mastermind",
           command=nouvelle_partie).grid(row=0, column=0)
 racine.mainloop()
+
+
+#ajouter un bouton rejouer pour recommencer une partie
+#ajouter un bouton effacer ou retour en arriere.
+#Arreter la partie quand on aura gagne ou perdu.
+#Sauvegarder le jeu.
