@@ -182,4 +182,5 @@ def nouvelle_partie():
 
 tk.Button(racine, text="Welcome to Mastermind", background = "pink", font = ("Helvetica Black",12), foreground = "maroon",
           command=nouvelle_partie).place(relx=0.42, rely=0.455)
+
 racine.mainloop()
