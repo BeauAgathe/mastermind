@@ -181,5 +181,5 @@ def nouvelle_partie():
 
 
 tk.Button(racine, text="Welcome to Mastermind",
-          command=nouvelle_partie).grid(row=0, column=0)
+          command=nouvelle_partie).grid(row=1, column=1)
 racine.mainloop()
