@@ -160,8 +160,9 @@ def nouvelle_partie():
     create_buttons()
     tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)#Maris's genius
     tk.Button(racine, text="Rejouer",    #Marias ref
-          command=nouvelle_partie).grid(row=8, column=5)
-    create_texte()
+         
+          command=nouvelle_partie)
+    valider_btn = tk.Button(racine, text="Valider", command=valider_tentative)
     if GAGNE is True:
         affiche_texte("Gagné! Bravo")
         return None
