@@ -244,9 +244,9 @@ def display_feedback(correct, misplaced, row):
     feedback_canvas = tk.Canvas(racine, width=100, height=50, bg="pink")
     feedback_canvas.grid(row=row+1, column=3)
     for i in range(correct):
-        feedback_canvas.create_oval(10 + i * 20, 10, 30 + i * 20, 30, fill="red")
+        feedback_canvas.create_oval(10 + i * 20, 10, 30 + i * 20, 30, fill="red") #le nombre de cercle rouge a tracer pour chaque couleur a la bonne position
     for i in range(misplaced):
-        feedback_canvas.create_oval(10 + (correct + i) * 20, 10, 30 + (correct + i) * 20, 30, fill="white")
+        feedback_canvas.create_oval(10 + (correct + i) * 20, 10, 30 + (correct + i) * 20, 30, fill="white") #combine le nombre de cercle a la bonne position avec l'indice i du cercle du feedback.
 
 def start_one_player_mode():
     """Le code secret est genere aleatoirement par le jeu, et le joueur doit le deviner"""
