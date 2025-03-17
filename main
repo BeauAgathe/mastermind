@@ -119,8 +119,8 @@ def comparer_codes(guess, secret):
 
 def dessine_cercle(centre_x, centre_y, canva):
     """dessine un cercle sur le canva"""
-    return canva.create_oval(centre_x + 15, centre_y + 15,
-                             centre_x - 15, centre_y - 15, outline="purple")
+    return canva.create_oval(centre_x + 20, centre_y + 20,
+                             centre_x - 20, centre_y - 20, outline="purple")
 
 
 def create_buttons():
