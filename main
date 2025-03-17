@@ -1,25 +1,36 @@
 '''main'''
 
+import tkinter as tk
 import random as rd
 
 # les couleurs qu'on peut utiliser dans le jeu:
-couleurs = ["rouge", "bleu", "jaune", "vert", "blanc", "noir"]
+couleurs = ["red", "blue", "yellow", "green", "white", "black"]
 
-# variable qui dit quand le joueur a gagné:
-gagne = False
+# création de la fenêtre de jeu
+racine = tk.Tk()
+racine.title("Mastermind")
+racine.geometry("1200x1000")
+
+# variables de jeu
+canvas = []
+empty_circles = []
+clicked_colors = []
+current_canva = 0
+current_circle = 0
 
 
 # l'ordinateur créé aléatoirement un code couleur secret en utilisant random
 def creer_code_secret():
-    """fabrique aléatoirement un code couleur à deviner"""
+    '''fabrique aléatoirement un code couleur à deviner'''
     le_code_secret = []
-    while len(le_code_secret) < 5:
+    while len(le_code_secret) < 4:
         le_code_secret.append(couleurs[rd.randint(0, 5)])
     return le_code_secret
 
 
 # on demande au joueur de choisir un code couleur
 def demande_code_joueur_terminal():
+    '''joueur ecrit les couleurs une par une dans le terminal'''
     code = []
     while len(code) < 5:
         couleur = input("choisir une couleur: ")
@@ -31,47 +42,115 @@ def demande_code_joueur_terminal():
     return code
 
 
-# on compare le code du joueur et le code secret pour voir si le joueur a gagné
-def comparer_code_secret_et_code_joueur(code_du_joueur, le_code_secret):
-    """vérifie si le code donné par le joueur est bon"""
-    print(code_du_joueur)
-    if code_du_joueur == le_code_secret:
-        print("CODE CORRECT!")
-        return True
-    else:
-        print("CODE INCORRECT!")
-        print("Réessayez, le succès commence après plusieurs échecs")
-        return False
-
-
 # on compare les couleurs entre le code du joueur et le code secret
 def compare_couleurs(codejoueur, codesecret):
-    """regarde la couleur et l'emplacement de chaque element du code joueur"""
-    numero = 0
-    for element in codejoueur:
-        numero += 1
-        reponse = 0
-        for i in range(len(codesecret)):
-            if element == codesecret[i]:
-                reponse = 1
-                if i == numero - 1:
-                    reponse = 2
-                if reponse == 2:
-                    print("la couleur ", numero, " est au bon emplacement")
-        if reponse > 0:
-            print("la couleur ", numero, " est dans le code secret")
+    '''regarde la couleur et l'emplacement de chaque element du code joueur'''
+    if codejoueur == codesecret:
+        affiche_texte("BRAVO, c'est gagné!")
+        global GAGNE
+        GAGNE = True
+    else:
+        reponse = ""
+        for i in range(4):
+            if codejoueur[i] == codesecret[i]:
+                reponse += "\n la couleur " + str(i + 1) + " est la bonne couleur au bon emplacement"
+            elif codejoueur[i] in codesecret:
+                reponse += "\n la couleur " + str(i + 1) + " existe mais n'est pas au bon emplacement"
+            else:
+                reponse += "\n la couleur " + str(i + 1) + " n'est pas dans le code secret"
+        affiche_texte(reponse)
 
 
-# déroulement de la partie:
-code_secret = creer_code_secret()
-compteur = 0
-while gagne is False and compteur < 12:
-    print("Vous avez", 12-compteur, "essais")
-    compteur +=1
-    code_joueur = demande_code_joueur_terminal()
-    compare_couleurs(code_joueur, code_secret)
-    if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is True:
-        gagne = True
+# les canvas roses où le joueur place son code
+def create_canvas(racine):
+    '''fabrique les 12 canvas avec les emplacements dedans'''
+    global circles, canvas
+    circles = []
+    canvas = []
+    for i in range(12):
+        canva = tk.Canvas(racine, width=350, height=50, bg="pink")
+        canva.grid(row=i, column=2)
+        canvas.append(canva)
+        for j in range(4):
+            centre_x = 50 + 60*j
+            centre_y = 25
+            circle = dessine_cercle(centre_x, centre_y, canva)
+            circles.append(circle)
+        empty_circles.append(circles)
 
-if comparer_code_secret_et_code_joueur(code_joueur, code_secret) is not True:
-    print("Plus d'essais, vous avez perdu!")
+
+def change_couleur_cercle(couleur_boutton):
+    '''quand on clique sur un boutton ça change la couleur du cercle'''
+    global current_canva, current_circle
+    if len(clicked_colors) < 4:
+        clicked_colors.append(couleur_boutton)
+    if current_canva < 11:
+        canva = canvas[current_canva]
+        canva.itemconfig(empty_circles[current_canva][current_circle],
+                         fill=clicked_colors[-1])
+        # clicked colors est une liste des couleur du code du joueur qui
+        # se remplit au fur et a mesure du choix des couleurs.
+        current_circle += 1
+        if current_circle == 4:
+            compare_couleurs(clicked_colors, code_secret)
+            current_canva += 1
+            clicked_colors.clear()
+            current_circle = 0
+
+
+def dessine_cercle(centre_x, centre_y, canva):
+    """dessine un cercle sur le canva"""
+    return canva.create_oval(centre_x + 15, centre_y + 15,
+                             centre_x - 15, centre_y - 15, outline="white")
+
+
+def create_buttons():
+    '''crée les boutons pour chaque couleur'''
+    for i, color in enumerate(couleurs):
+        button = tk.Button(racine, bg=color,
+                           command=lambda c=color: change_couleur_cercle(c))
+        button.grid(row=i+1, column=4)
+
+
+def create_texte():
+    '''pour créer un label qui affiche les textes'''
+    global label
+    label = tk.Label(racine, text="")
+    label.grid(column=5, row=0, rowspan=8)
+
+
+def affiche_texte(texte):
+    '''change le texte dans le label'''
+    label.configure(text=texte)
+
+
+# fonction qui commence une nouvelle partie
+def nouvelle_partie():
+    '''on réinitialise la fenêtre et
+    recommence une partie avec nouveau code secret'''
+    global GAGNE
+    GAGNE = False
+    global code_secret
+    code_secret = creer_code_secret()
+    global canvas, empty_circles, clicked_colors, current_canva, current_circle
+    canvas = []
+    empty_circles = []
+    clicked_colors = []
+    current_canva = 0
+    current_circle = 0
+    for widget in racine.winfo_children():
+        widget.destroy()
+    create_canvas(racine)
+    create_buttons()
+    create_texte()
+    if GAGNE is True:
+        affiche_texte("Gagné! Bravo")
+        return None
+    if current_canva == len(canvas) and GAGNE is False:
+        affiche_texte("Perdu!")
+        return None
+
+
+tk.Button(racine, text="Welcome to Mastermind",
+          command=nouvelle_partie).grid(row=0, column=0)
+racine.mainloop()
