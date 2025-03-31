@@ -10,6 +10,7 @@ couleurs = ["red", "blue", "yellow", "green", "white", "black"]
 racine = tk.Tk()
 racine.title("Mastermind")
 racine.geometry("1200x1000")
+racine["bg"]="#9F8170"
 
 # variables de jeu
 canvas = []
@@ -52,7 +53,7 @@ def dessine_cercle(centre_x, centre_y, canva):
 def create_buttons():
     '''crée les boutons pour chaque couleur'''
     for i, color in enumerate(couleurs):
-        button = tk.Button(racine, bg=color,
+        button = tk.Button(racine, bg=color, width=5, height=4,
                            command=lambda c=color: change_couleur_cercle(c))
         button.grid(row=i+1, column=4)
 
@@ -68,11 +69,6 @@ def create_texte():
 def affiche_texte(texte):
     '''change le texte dans le label'''
     label.configure(text=texte)
-
-restart_image1=tk.PhotoImage(file="photo/restartimage.png")
-button_restart=tk.Button(racine, image=restart_image1, borderwidth=0)
-button_restart.place(relx=0.7, rely=0.455)
-
 
 ###############################################################################
 # L'algorithme:
@@ -177,9 +173,8 @@ def nouvelle_partie():
     button_retour=tk.Button(racine,image=retour_image, borderwidth=0,command=retour)
     button_retour.grid(row=9, column=5)
     valider_image=tk.PhotoImage(file="photo/checkmarkicon45.png")
-    valider_button=tk.Button(racine, image=valider_image, borderwidth=0,command=compare_couleurs_texte)
+    valider_button=tk.Button(racine, image=valider_image, borderwidth=0,command=valider)
     valider_button.grid(row=10, column=5)
-    create_texte()
     create_texte()
 
     if GAGNE is True:
@@ -239,11 +234,6 @@ def choisir_code_secret():
     enregistrer_button.pack(pady=10)
     fenetre_code.mainloop()
 
-
-tk.Button(racine, text="Welcome to Mastermind", background="pink", font=("Helvetica Black", 12), foreground="maroon",
-          command=nouvelle_partie).place(relx=0.42, rely=0.455)
-
-
 def Mode_1_joueur():
     global mode 
     mode = 1
@@ -258,9 +248,9 @@ def Mode_2_joueurs():
 
 tk.Button(racine, text="One Player Mode", command=Mode_1_joueur).grid(row=0, column=0)
 tk.Button(racine, text="Two Player Mode", command=Mode_2_joueurs).grid(row=1, column=0)
-
-tk.Button(racine, text="One Player Mode", command=Mode_un_joueur).grid(row=0, column=0)
-tk.Button(racine, text="Two Player Mode", command=Mode_deux_joueurs).grid(row=1, column=0)
+Mastermind_image=tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
+MM_button=tk.Button(racine,image=Mastermind_image, borderwidth=0 ,command=nouvelle_partie)
+MM_button.place(relx=0.35, rely=0.4)
 
 racine.mainloop()
 
