@@ -10,7 +10,7 @@ couleurs = ["red", "blue", "yellow", "green", "white", "black"]
 racine = tk.Tk()
 racine.title("Mastermind")
 racine.geometry("1200x1000")
-racine["bg"]="#9F8170"
+racine["bg"]="#80461B"
 
 # variables de jeu
 canvas = []
@@ -165,13 +165,6 @@ def nouvelle_partie():
     create_canvas(racine)
     create_buttons()
 
-<<<<<<< HEAD
-    tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)
-    tk.Button(racine, text="Rejouer",    #Marias ref
-          command=nouvelle_partie).grid(row=8, column=5)
-    tk.Button(racine, text = "Valider", command = compare_couleurs_texte).grid(row = 9, column = 5 )
-    create_texte()
-=======
     global restart_image,retour_image,valider_image
     restart_image = tk.PhotoImage(file="photo/restarticon.png")
     button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
@@ -183,7 +176,6 @@ def nouvelle_partie():
     valider_button=tk.Button(racine, image=valider_image, borderwidth=0,command=valider)
     valider_button.grid(row=10, column=5)
     create_texte()
-    create_texte()
 
     if GAGNE is True:
         affiche_texte("Gagné! Bravo")
@@ -191,7 +183,6 @@ def nouvelle_partie():
     if current_canva == len(canvas) and GAGNE is False:
         affiche_texte("Perdu!")
         return None
-
 
 def retour():
     """Fonction qui permet de retourner en arriere"""
@@ -204,11 +195,6 @@ def retour():
         canvas[current_canva].itemconfig(empty_circles[current_canva][current_circle],
                          fill="pink")   
         
-
-<<<<<<< HEAD
-tk.Button(racine, text="Welcome to Mastermind", background = "pink", font = ("Helvetica Black",12), foreground = "maroon",
-          command=nouvelle_partie).place(relx=0.40, rely=0.455)
-=======
 def valider():
     global current_circle, clicked_colors, correct_positions, misplaced_positions, current_canva
     if current_circle == 4:
@@ -264,7 +250,7 @@ Mastermind_image=tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
 MM_button=tk.Button(racine,image=Mastermind_image, borderwidth=0 ,command=nouvelle_partie)
 MM_button.place(relx=0.35, rely=0.4)
 
->>>>>>> bf8dd6c49dbe648b42032cf77723de8d77d49dd0
+
 racine.mainloop()
 
 
