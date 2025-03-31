@@ -169,9 +169,17 @@ def nouvelle_partie():
     create_canvas(racine)
     create_buttons()
 
-    tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)#Marias's genius
-    tk.Button(racine, text="Rejouer",command=nouvelle_partie).grid(row=8, column=5) #Maria's ref
-    tk.Button(racine, text="Valider", command=compare_couleurs_texte).grid(row=9, column=5)
+    global restart_image,retour_image,valider_image
+    restart_image = tk.PhotoImage(file="photo/restarticon.png")
+    button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
+    button_restart.grid(row=8, column=5)
+    retour_image=tk.PhotoImage(file="photo/returnicon.png")
+    button_retour=tk.Button(racine,image=retour_image, borderwidth=0,command=retour)
+    button_retour.grid(row=9, column=5)
+    valider_image=tk.PhotoImage(file="photo/checkmarkicon45.png")
+    valider_button=tk.Button(racine, image=valider_image, borderwidth=0,command=compare_couleurs_texte)
+    valider_button.grid(row=10, column=5)
+    create_texte()
     create_texte()
 
     if GAGNE is True:
