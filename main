@@ -27,7 +27,7 @@ def create_canvas(racine):
     canvas = []
     for i in range(1, 11):
         canva = tk.Canvas(racine, width=350, height=50, bg="pink")
-        canva.grid(row=i, column=2)
+        canva.grid(row=i, column=2, pady=5)
         canvas.append(canva)
         for j in range(4):
             centre_x = 50 + 60*j
@@ -35,6 +35,10 @@ def create_canvas(racine):
             circle = dessine_cercle(centre_x, centre_y, canva)
             circles.append(circle)
         empty_circles.append(circles)
+
+racine.columnconfigure(0, weight=1)  
+racine.columnconfigure(2, weight=1)  
+racine.columnconfigure(3, weight=1)
 
 
 def dessine_cercle(centre_x, centre_y, canva):
@@ -51,6 +55,7 @@ def create_buttons():
         button.grid(row=i+1, column=4)
 
 
+
 def create_texte():
     '''pour créer un label qui affiche les textes'''
     global label
@@ -62,9 +67,6 @@ def affiche_texte(texte):
     '''change le texte dans le label'''
     label.configure(text=texte)
 
-restart_image1=tk.PhotoImage(file="photo/restartimage.png")
-button_restart=tk.Button(racine, image=restart_image1, borderwidth=0)
-button_restart.place(relx=0.7, rely=0.455)
 
 
 
@@ -165,10 +167,16 @@ def nouvelle_partie():
         widget.destroy()
     create_canvas(racine)
     create_buttons()
-
-    tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)#Marias's genius
-    tk.Button(racine, text="Rejouer",command=nouvelle_partie).grid(row=8, column=5) #Maria's ref
-    tk.Button(racine, text="Valider", command=compare_couleurs_texte).grid(row=9, column=5)
+    global restart_image,retour_image,valider_image
+    restart_image = tk.PhotoImage(file="photo/restarticon.png")
+    button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
+    button_restart.grid(row=8, column=5)
+    retour_image=tk.PhotoImage(file="photo/returnicon.png")
+    button_retour=tk.Button(racine,image=retour_image, borderwidth=0,command=retour)
+    button_retour.grid(row=9, column=5)
+    valider_image=tk.PhotoImage(file="photo/checkmarkicon45.png")
+    valider_button=tk.Button(racine, image=valider_image, borderwidth=0,command=compare_couleurs_texte)
+    valider_button.grid(row=10, column=5)
     create_texte()
 
     if GAGNE is True:
@@ -188,7 +196,6 @@ def retour():
         current_circle-=1 
         canvas[current_canva].itemconfig(empty_circles[current_canva][current_circle],
                          fill="pink")   
-        
 
 tk.Button(racine, text="Welcome to Mastermind", background = "pink", font = ("Helvetica Black",12), foreground = "maroon",
           command=nouvelle_partie).place(relx=0.42, rely=0.455)
@@ -201,6 +208,8 @@ def Mode_un_joueur():
 def Mode_deux_joueurs():
     nouvelle_partie()
     create_secret_code_input()
+
+
 
 tk.Button(racine, text="One Player Mode", command=Mode_un_joueur).grid(row=0, column=0)
 tk.Button(racine, text="Two Player Mode", command=Mode_deux_joueurs).grid(row=1, column=0)
