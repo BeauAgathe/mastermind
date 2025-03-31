@@ -1,9 +1,24 @@
 '''agathe'''
 
 
-def sauvegarder():
+def sauvegarder(nom_partie):
     '''pour enregistrer la partie dans le fichier'''
     sauv = open('fichier de sauvegarde', "w")
+    dico = {"partie":nom_partie}
+    if mode == 1:
+        m = "un seul joueur"
+    if mode == 2:
+        m = "deux joueurs"
+    dico["mode"] = m
+    dico["code secret"] = code_secret
+    if GAGNE is True:
+        r = "victoire, le code secret a été deviné"
+    if GAGNE is False:
+        r = "défaite, le code secret n'a pas été deviné"
+    dico["résulat"] = r
+    dico["nombre d'essais"] = current_canva
+    dico["tentatives"] = tentatives
+    sauv.write(str(dico))
     sauv.close()
 
 
