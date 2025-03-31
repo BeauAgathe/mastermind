@@ -158,11 +158,19 @@ def nouvelle_partie():
         widget.destroy()
     create_canvas(racine)
     create_buttons()
+<<<<<<< HEAD
+    tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)
+    tk.Button(racine, text="Rejouer",    #Marias ref
+          command=nouvelle_partie).grid(row=8, column=5)
+    tk.Button(racine, text = "Valider", command = compare_couleurs).grid(row = 9, column = 5 )
+    create_texte()
+=======
     tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)#Maris's genius
     tk.Button(racine, text="Rejouer",    #Marias ref
          
           command=nouvelle_partie)
     valider_btn = tk.Button(racine, text="Valider", command=valider_tentative)
+>>>>>>> 83e051ef6f507b72df84290e7f1452b7b6633f41
     if GAGNE is True:
         affiche_texte("Gagné! Bravo")
         return None
@@ -180,6 +188,7 @@ def retour():
         current_circle-=1 
         canvas[current_canva].itemconfig(empty_circles[current_canva][current_circle],
                          fill="pink")   
+        
 
 tk.Button(racine, text="Welcome to Mastermind", background = "pink", font = ("Helvetica Black",12), foreground = "maroon",
           command=nouvelle_partie).place(relx=0.42, rely=0.455)
