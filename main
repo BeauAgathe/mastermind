@@ -39,6 +39,7 @@ def create_canvas(racine):
             circles.append(circle)
         empty_circles.append(circles)
 
+
 racine.columnconfigure(0, weight=1)  
 racine.columnconfigure(2, weight=1)  
 racine.columnconfigure(3, weight=1)
@@ -188,6 +189,7 @@ def nouvelle_partie():
         affiche_texte("Perdu!")
         return None
 
+
 def retour():
     """Fonction qui permet de retourner en arriere"""
     global clicked_colors, current_circle, canvas
@@ -258,6 +260,7 @@ def choisir_code_secret():
     enregistrer_button = tk.Button(fenetre_code, text="Enregistrer Code Secret")
     enregistrer_button.pack(pady=10)
     fenetre_code.mainloop()
+
 
 def Mode_1_joueur():
     global mode 
