@@ -62,6 +62,12 @@ def affiche_texte(texte):
     '''change le texte dans le label'''
     label.configure(text=texte)
 
+restart_image1=tk.PhotoImage(file="photo/restartimage.png")
+button_restart=tk.Button(racine, image=restart_image1, borderwidth=0)
+button_restart.place(relx=0.7, rely=0.455)
+
+
+
 
 ##########################################################################################
 #L'algorithme:
@@ -114,6 +120,7 @@ def compare_couleurs_texte(codejoueur, codesecret):
                 reponse += "\n la couleur " + str(i + 1) + " existe mais n'est pas au bon emplacement"
             else:
                 reponse += "\n la couleur " + str(i + 1) + " n'est pas dans le code secret"
+
         affiche_texte(reponse)
 
 def comparer_codes(guess, secret):
@@ -158,10 +165,17 @@ def nouvelle_partie():
         widget.destroy()
     create_canvas(racine)
     create_buttons()
+<<<<<<< HEAD
     tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)
     tk.Button(racine, text="Rejouer",    #Marias ref
           command=nouvelle_partie).grid(row=8, column=5)
     tk.Button(racine, text = "Valider", command = compare_couleurs).grid(row = 9, column = 5 )
+=======
+
+    tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)#Marias's genius
+    tk.Button(racine, text="Rejouer",command=nouvelle_partie).grid(row=8, column=5) #Maria's ref
+    tk.Button(racine, text="Valider", command=compare_couleurs_texte).grid(row=9, column=5)
+>>>>>>> f07cd777d225a3202f188c3e6fbdba5a4c9c162b
     create_texte()
 
     if GAGNE is True:
@@ -185,6 +199,19 @@ def retour():
 
 tk.Button(racine, text="Welcome to Mastermind", background = "pink", font = ("Helvetica Black",12), foreground = "maroon",
           command=nouvelle_partie).place(relx=0.42, rely=0.455)
+
+
+def Mode_un_joueur():
+    creer_code_secret()
+    nouvelle_partie()
+
+def Mode_deux_joueurs():
+    nouvelle_partie()
+    create_secret_code_input()
+
+tk.Button(racine, text="One Player Mode", command=Mode_un_joueur).grid(row=0, column=0)
+tk.Button(racine, text="Two Player Mode", command=Mode_deux_joueurs).grid(row=1, column=0)
+
 racine.mainloop()
 
 
@@ -192,3 +219,4 @@ racine.mainloop()
 #Arreter la partie quand on aura gagne ou perdu.
 #Sauvegarder le jeu.
 #creer une fonction valider.
+#creer uun bouton submit pour (mode deux joueur)
