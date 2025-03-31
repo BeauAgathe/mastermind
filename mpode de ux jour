@@ -1,0 +1,36 @@
+import tkinter as tk
+racine = tk.Tk()
+racine.title("Jeu Mastermind - Mode Deux Joueurs")
+
+
+couleurs_disponibles = ['white', 'black', 'red', 'green', 'yellow', 'blue']
+
+cercles=[]
+canva = tk.Canvas(racine, width=400, height=80)
+canva.pack(pady=20)
+
+
+for i in range(4):
+    cercle = canva.create_oval(50 + i * 80, 20, 90 + i * 80, 60, outline="black", width=2, fill="white")
+    cercles.append(cercle)
+
+
+boutons = tk.Button(racine)
+boutons.pack(pady=10)
+
+
+for couleur in couleurs_disponibles:
+    couleur = tk.Button(boutons, text=couleur.capitalize(), bg=couleur, 
+                               command=lambda couleur=couleur: couleur(couleur, couleurs.index()))
+    couleur.pack(side=tk.LEFT, padx=5)
+
+
+label_code_secret = tk.Label(racine, text="", font=( 14))
+label_code_secret.pack(pady=10)
+
+
+enregistrer_button = tk.Button(racine, text="Enregistrer Code Secret", )
+enregistrer_button.pack(pady=10)
+
+
+racine.mainloop()

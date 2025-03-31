@@ -63,7 +63,9 @@ def affiche_texte(texte):
     label.configure(text=texte)
 
 restart_image1=tk.PhotoImage(file="photo/restartimage.png")
-button_restart=
+button_restart=tk.Button(racine, image=restart_image1, borderwidth=0)
+button_restart.place(relx=0.7, rely=0.455)
+
 
 
 
@@ -163,10 +165,12 @@ def nouvelle_partie():
         widget.destroy()
     create_canvas(racine)
     create_buttons()
+
     tk.Button(racine, text="Retour",command=retour).grid(row=7, column=5)#Marias's genius
     tk.Button(racine, text="Rejouer",command=nouvelle_partie).grid(row=8, column=5) #Maria's ref
     tk.Button(racine, text="Valider", command=compare_couleurs_texte).grid(row=9, column=5)
     create_texte()
+
     if GAGNE is True:
         affiche_texte("Gagné! Bravo")
         return None
@@ -184,6 +188,7 @@ def retour():
         current_circle-=1 
         canvas[current_canva].itemconfig(empty_circles[current_canva][current_circle],
                          fill="pink")   
+        
 
 tk.Button(racine, text="Welcome to Mastermind", background = "pink", font = ("Helvetica Black",12), foreground = "maroon",
           command=nouvelle_partie).place(relx=0.42, rely=0.455)
