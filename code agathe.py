@@ -3,7 +3,7 @@
 
 def sauvegarder(nom_partie):
     '''pour enregistrer la partie dans le fichier'''
-    sauv = open('fichier de sauvegarde', "w")
+    sauv = open('fichier de sauvegarde', "a")
     dico = {"partie":nom_partie}
     if mode == 1:
         m = "un seul joueur"
@@ -20,6 +20,19 @@ def sauvegarder(nom_partie):
     dico["tentatives"] = tentatives
     sauv.write(str(dico) + "\n")
     sauv.close()
+
+
+def input():
+    user_input = entry.get()
+    label.config(text=f"You entered: {user_input}")
+
+
+entry = tk.Entry(racine)
+entry.grid(row=2, column=1)
+button = tk.Button(racine, text="Submit", command=input)
+button.grid(row=3, column=1)
+label = tk.Label(racine, text="Nommer la partie")
+label.grid(row=4, column=1)
 
 
 def voir_vieilles_parties():

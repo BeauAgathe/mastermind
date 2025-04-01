@@ -10,7 +10,7 @@ couleurs = ["red", "blue", "yellow", "green", "white", "black"]
 racine = tk.Tk()
 racine.title("Mastermind")
 racine.geometry("1200x1000")
-racine["bg"]="#80461B"
+racine["bg"] = "#80461B"
 
 # variables de jeu
 canvas = []
@@ -18,9 +18,16 @@ empty_circles = []
 clicked_colors = []
 current_canva = 0
 current_circle = 0
+mode = 1
+GAGNE = False
 
-# Pour l'interface:
-# les canvas roses où le joueur place son code
+# reinitialisation des colonnes de l'interface
+racine.columnconfigure(0, weight=1)
+racine.columnconfigure(2, weight=1)
+racine.columnconfigure(3, weight=1)
+
+#############################################################################
+# fonctions pour l'interface
 
 
 def create_canvas(racine):
@@ -40,11 +47,6 @@ def create_canvas(racine):
         empty_circles.append(circles)
 
 
-racine.columnconfigure(0, weight=1)  
-racine.columnconfigure(2, weight=1)  
-racine.columnconfigure(3, weight=1)
-
-
 def dessine_cercle(centre_x, centre_y, canva):
     """dessine un cercle sur le canva"""
     return canva.create_oval(centre_x + 20, centre_y + 20,
@@ -59,7 +61,6 @@ def create_buttons():
         button.grid(row=i+1, column=4)
 
 
-
 def create_texte():
     '''pour créer un label qui affiche les textes'''
     global label
@@ -72,17 +73,7 @@ def affiche_texte(texte):
     label.configure(text=texte)
 
 ###############################################################################
-# L'algorithme:
-# Mode 1 joueur:
-# l'ordinateur créé aléatoirement un code couleur secret en utilisant random
-
-
-def creer_code_secret():
-    '''fabrique aléatoirement un code couleur à deviner'''
-    le_code_secret = []
-    while len(le_code_secret) < 4:
-        le_code_secret.append(couleurs[rd.randint(0, 5)])
-    return le_code_secret
+# fonction pour le deroulement de la partie
 
 
 def change_couleur_cercle(couleur_boutton):
@@ -99,9 +90,8 @@ def change_couleur_cercle(couleur_boutton):
         current_circle += 1
 
 
-# on compare les couleurs entre le code du joueur et le code secret
 def compare_couleurs_texte(codejoueur, codesecret):
-    '''regarde la couleur et l'emplacement de chaque element du code joueur et affiche un texte'''
+    '''regarde couleur et emplacement de chaque element du code joueur'''
     if codejoueur == codesecret:
         affiche_texte("BRAVO, c'est gagné!")
         global GAGNE
@@ -120,8 +110,9 @@ def compare_couleurs_texte(codejoueur, codesecret):
 
 
 def comparer_codes(guess, secret):
-    """Compare le input_code du jouer avec le code genere aleatoirement par le jeu(compare la position)"""
-    correct_positions = sum([1 for i in range(4) if guess[i] == secret[i]]) # va rajouter 1 a chaque qu'une couleur est dans la bonne position.
+    """Compare le code du joueur avec le code secret(compare la position)"""
+    correct_positions = sum([1 for i in range(4) if guess[i] == secret[i]])
+# va rajouter 1 a chaque qu'une couleur est dans la bonne position.
     misplaced_positions = 0
     secret_copy = secret[:]
     guess_copy = guess[:]
@@ -137,12 +128,15 @@ def comparer_codes(guess, secret):
 
 
 def display_feedback(correct, misplaced, row):
+    '''rouge=bonne couleur et emplacement; blanc=bonne couleur'''
     feedback_canvas = tk.Canvas(racine, width=100, height=50, bg="pink")
     feedback_canvas.grid(row=row+1, column=3)
     for i in range(correct):
-        feedback_canvas.create_oval(10 + i * 20, 10, 30 + i * 20, 30, fill="red")
+        feedback_canvas.create_oval(10 + i * 20, 10, 30 + i * 20, 30,
+                                    fill="red")
     for i in range(misplaced):
-        feedback_canvas.create_oval(10 + (correct + i) * 20, 10, 30 + (correct+i) * 20, 30, fill="white")
+        feedback_canvas.create_oval(10 + (correct + i) * 20, 10, 30 + (correct + i) * 20,
+                                    30, fill="white")
 
 
 # fonction qui commence une nouvelle partie
@@ -155,8 +149,8 @@ def nouvelle_partie():
         code_secret = creer_code_secret()
     if mode == 2:
         code_secret = choisir_code_secret()
-    nom_partie = input("choisir un nom pour la partie")
-    global canvas, empty_circles, clicked_colors, current_canva, current_circle, tentatives
+    global canvas, empty_circles, clicked_colors
+    global current_canva, current_circle, tentatives
     canvas = []
     empty_circles = []
     clicked_colors = []
@@ -167,18 +161,22 @@ def nouvelle_partie():
         widget.destroy()
     create_canvas(racine)
     create_buttons()
-    sauvegarde = tk.Button(racine, text="Sauvegarder la partie", command=sauvegarder)
+    sauvegarde = tk.Button(racine, text="Sauvegarder la partie",
+                           command=sauvegarder)
     sauvegarde.grid(column=2, row=12)
 
     global restart_image, retour_image, valider_image
     restart_image = tk.PhotoImage(file="photo/restarticon.png")
-    button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
+    button_restart = tk.Button(racine, image=restart_image, borderwidth=0,
+                               command=nouvelle_partie)
     button_restart.grid(row=8, column=5)
     retour_image = tk.PhotoImage(file="photo/returnicon.png")
-    button_retour = tk.Button(racine, image=retour_image, borderwidth=0, command=retour)
+    button_retour = tk.Button(racine, image=retour_image, borderwidth=0,
+                              command=retour)
     button_retour.grid(row=9, column=5)
     valider_image = tk.PhotoImage(file="photo/checkmarkicon45.png")
-    valider_button = tk.Button(racine, image=valider_image, borderwidth=0, command=valider)
+    valider_button = tk.Button(racine, image=valider_image, borderwidth=0,
+                               command=valider)
     valider_button.grid(row=10, column=5)
     create_texte()
 
@@ -190,20 +188,32 @@ def nouvelle_partie():
         return None
 
 
+###############################################################################
+# fonctions pour les differentes options du jeu
+
+
+def input():
+    '''recupere le input'''
+    user_input = entry.get()
+    label.config(text=f"You entered: {user_input}")
+
+
 def retour():
     """Fonction qui permet de retourner en arriere"""
     global clicked_colors, current_circle, canvas
-    if clicked_colors == []:
+    if not clicked_colors:
         return None
     else:
         clicked_colors.pop()
         current_circle -= 1
         canvas[current_canva].itemconfig(empty_circles[current_canva][current_circle],
-                         fill="pink")
+                                         fill="pink")
 
 
 def valider():
-    global current_circle, clicked_colors, correct_positions, misplaced_positions, current_canva
+    '''va envoyer le feedback et passer au canva suivant'''
+    global current_circle, clicked_colors, correct_positions
+    global misplaced_positions, current_canva
     if current_circle == 4:
         tentatives[current_canva] = clicked_colors
         # compare_couleurs_texte(clicked_colors, code_secret)
@@ -211,6 +221,8 @@ def valider():
         display_feedback(correct_positions, misplaced_positions, current_canva)
         if correct_positions == 4:
             affiche_texte("You win!")
+            global GAGNE
+            GAGNE = True
         elif current_canva == 9:
             affiche_texte("Out of attempts!")
         current_canva += 1
@@ -220,8 +232,8 @@ def valider():
 
 def sauvegarder():
     '''pour enregistrer la partie dans le fichier'''
-    sauv = open('fichier de sauvegarde', "w")
-    dico = {"partie": nom_partie}
+    sauv = open('fichier de sauvegarde', "a")
+    dico = {"partie": entry}
     if mode == 1:
         m = "un seul joueur"
     if mode == 2:
@@ -247,7 +259,8 @@ def choisir_code_secret():
     canva = tk.Canvas(fenetre_code, width=400, height=80)
     canva.pack(pady=20)
     for i in range(4):
-        cercle = canva.create_oval(50 + i * 80, 20, 90 + i * 80, 60, outline="black", width=2, fill="white")
+        cercle = canva.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
+                                   outline="black", width=2, fill="white")
         cercles2.append(cercle)
     boutons = tk.Button(fenetre_code)
     boutons.pack(pady=10)
@@ -262,24 +275,44 @@ def choisir_code_secret():
     fenetre_code.mainloop()
 
 
-def Mode_1_joueur():
-    global mode 
+def creer_code_secret():
+    '''fabrique aléatoirement un code couleur à deviner'''
+    le_code_secret = []
+    while len(le_code_secret) < 4:
+        le_code_secret.append(couleurs[rd.randint(0, 5)])
+    return le_code_secret
+
+
+def mode_1_joueur():
+    '''l'ordi cree un code secret que le joueur doit deviner'''
+    global mode
     mode = 1
     nouvelle_partie()
 
 
-def Mode_2_joueurs():
-    global mode 
+def mode_2_joueurs():
+    '''un joueur choisi le code secret et un autre joueur le devine'''
+    global mode
     mode = 2
     nouvelle_partie()
 
 
-tk.Button(racine, text="One Player Mode", command=Mode_1_joueur).grid(row=0, column=0)
-tk.Button(racine, text="Two Player Mode", command=Mode_2_joueurs).grid(row=1, column=0)
-Mastermind_image=tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
-MM_button=tk.Button(racine,image=Mastermind_image, borderwidth=0 ,command=nouvelle_partie)
-MM_button.place(relx=0.35, rely=0.4)
+###############################################################################
+# algo
 
+
+tk.Button(racine, text="One Player Mode", command=mode_1_joueur).grid(row=0, column=0)
+tk.Button(racine, text="Two Player Mode", command=mode_2_joueurs).grid(row=1, column=0)
+Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
+MM_button = tk.Button(racine, image=Mastermind_image, borderwidth=0,
+                      command=nouvelle_partie)
+MM_button.place(relx=0.35, rely=0.4)
+entry = tk.Entry(racine)
+entry.grid(row=2, column=1)
+button_submit = tk.Button(racine, text="Submit", command=input)
+button_submit.grid(row=3, column=1)
+label = tk.Label(racine, text="Nommer la partie")
+label.grid(row=4, column=1)
 
 racine.mainloop()
 
