@@ -53,3 +53,27 @@ def voir_vieilles_parties2():
     past_games = fichier.readlines()
     fichier.close()
     affiche_texte(past_games["parties"])
+
+
+def sauvegarder(nom_partie):
+    '''pour enregistrer la partie dans le fichier'''
+    sauv = open('fichier de sauvegarde', "a")
+    nompartie = str(nom_partie)
+    sauv.write(nompartie + "\n")
+    if mode == 1:
+        m = "mode avec un seul joueur"
+    if mode == 2:
+        m = "mode avec deux joueurs"
+    sauv.write(m + "\n")
+    code = "le code secret était" + str(code_secret)
+    sauv.write(str(code) + "\n")
+    if GAGNE is True:
+        r = "victoire, le code secret a été deviné"
+    if GAGNE is False:
+        r = "défaite, le code secret n'a pas été deviné"
+    sauv.write(r + "\n")
+    nmbre_dessais = "nombred'essais:" + str(current_canva)
+    sauv.write(str(nmbre_dessais) + "\n")
+    sauv.write(str(tentatives) + "\n")
+    sauv.close()
+    

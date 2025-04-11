@@ -164,6 +164,9 @@ def nouvelle_partie():
     sauvegarde = tk.Button(racine, text="Sauvegarder la partie",
                            command=sauvegarder)
     sauvegarde.grid(column=2, row=12)
+    previous_game = tk.Button(racine, text="Partie precedente",
+                              command=partie_precedente)
+    previous_game.grid(column=3, row=12)
 
     global restart_image, retour_image, valider_image
     restart_image = tk.PhotoImage(file="photo/restarticon.png")
@@ -232,8 +235,8 @@ def valider():
 
 def sauvegarder():
     '''pour enregistrer la partie dans le fichier'''
-    sauv = open('fichier de sauvegarde', "a")
-    dico = {"partie": entry}
+    sauv = open('fichier de sauvegarde', "w")
+    dico = {}
     if mode == 1:
         m = "un seul joueur"
     if mode == 2:
@@ -247,8 +250,16 @@ def sauvegarder():
     dico["résulat"] = r
     dico["nombre d'essais"] = current_canva
     dico["tentatives"] = tentatives
-    sauv.write(str(dico))
+    sauv.write(str(dico) + "\n")
     sauv.close()
+
+
+def partie_precedente():
+    '''pour regarder les infos de la partie precedente'''
+    fichier = open('fichier de sauvegarde', "r")
+    for ligne in fichier:
+        affiche_texte(ligne)
+    fichier.close()
 
 
 def choisir_code_secret():
