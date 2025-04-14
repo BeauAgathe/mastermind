@@ -4,13 +4,13 @@ import tkinter as tk
 import random as rd
 
 # les couleurs qu'on peut utiliser dans le jeu:
-couleurs = ["red", "blue", "yellow", "green", "white", "black"]
+couleurs = ["#EF476F", "#FFD166", "#06D6A0", "#118AB2", "#073B4C", "beige"]
 
 # création de la fenêtre de jeu
 racine = tk.Tk()
 racine.title("Mastermind")
 racine.geometry("1200x1000")
-racine["bg"]="#80461B"
+racine["bg"]="grey"
 
 # variables de jeu
 canvas = []
@@ -166,16 +166,18 @@ def nouvelle_partie():
     create_buttons()
 
     global restart_image,retour_image,valider_image
-    restart_image = tk.PhotoImage(file="photo/restarticon.png")
-    button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
-    button_restart.grid(row=8, column=5)
-    retour_image=tk.PhotoImage(file="photo/returnicon.png")
-    button_retour=tk.Button(racine,image=retour_image, borderwidth=0,command=retour)
-    button_retour.grid(row=9, column=5)
     valider_image=tk.PhotoImage(file="photo/checkmarkicon45.png")
     valider_button=tk.Button(racine, image=valider_image, borderwidth=0,command=valider)
-    valider_button.grid(row=10, column=5)
+    valider_button.grid(row=7, column=4)
     create_texte()
+    retour_image=tk.PhotoImage(file="photo/returnicon.png")
+    button_retour=tk.Button(racine,image=retour_image, borderwidth=0,command=retour)
+    button_retour.grid(row=8, column=4)
+    restart_image = tk.PhotoImage(file="photo/restarticon.png")
+    button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
+    button_restart.grid(row=9, column=4)
+
+
 
     if GAGNE is True:
         affiche_texte("Gagné! Bravo")
@@ -244,8 +246,10 @@ def Mode_2_joueurs():
     nouvelle_partie()
 
 
-tk.Button(racine, text="One Player Mode", command=Mode_1_joueur).grid(row=0, column=0)
-tk.Button(racine, text="Two Player Mode", command=Mode_2_joueurs).grid(row=1, column=0)
+mode1 = tk.Button(racine, text="One Player Mode", command=Mode_1_joueur)
+mode1.place(relx=0.46, rely=0.6)
+mode2 = tk.Button(racine, text="Two Player Mode", command=Mode_2_joueurs)
+mode2.place(relx=0.46, rely=0.65)
 Mastermind_image=tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
 MM_button=tk.Button(racine,image=Mastermind_image, borderwidth=0 ,command=nouvelle_partie)
 MM_button.place(relx=0.35, rely=0.4)
