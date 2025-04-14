@@ -180,6 +180,12 @@ def nouvelle_partie():
     valider_button = tk.Button(racine, image=valider_image, borderwidth=0, command=valider)
     valider_button.grid(row=8, column=4)
     create_texte()
+    '''retour_image = tk.PhotoImage(file="photo/returnicon.png")
+    button_retour = tk.Button(racine, image=retour_image, borderwidth=0, command=retour)
+    button_retour.grid(row=8, column=4)
+    restart_image = tk.PhotoImage(file="photo/restarticon.png")
+    button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
+    button_restart.grid(row=9, column=4)'''
 
 
 
@@ -230,11 +236,7 @@ def valider():
         elif current_canva == 9:
             affiche_texte("Out of Attemps!")##checkkkk
             end_game()
-            clicked_colors.clear()
-            current_circle = 0
-            current_canva = 0
-            return None
-        current_canva += 1
+        current_canva +=1
         clicked_colors.clear()
         current_circle = 0
 
@@ -324,9 +326,7 @@ def end_game():
         nouvelle_partie()
     else:
         retour_main_menu
-def check():
-    if affiche_texte=="Out of Attempts" or correct_positions==4:
-        end_game()
+
 
 def retour_main_menu():
     for widget in racine.winfo_children():
