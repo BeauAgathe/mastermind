@@ -232,8 +232,14 @@ def valider():
             affiche_texte("You win!")
             global GAGNE
             GAGNE = True
+            end_game()
         elif current_canva == 9:
             affiche_texte("Out of Attemps!")##checkkkk
+            end_game()
+            clicked_colors.clear()
+            current_circle = 0
+            current_canva = 0
+            return None
         current_canva += 1
         clicked_colors.clear()
         current_circle = 0
