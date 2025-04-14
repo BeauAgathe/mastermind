@@ -317,6 +317,7 @@ def mode_2_joueurs():
     mode = 2
     nouvelle_partie()
 
+
 def end_game():
     global correct_positions
     rejouer=messagebox.askyesno("Partie termine !!!voulez_vous rejouer?", parent=racine)
@@ -324,9 +325,12 @@ def end_game():
         nouvelle_partie()
     else:
         retour_main_menu
+
+
 def check():
     if affiche_texte=="Out of Attempts" or correct_positions==4:
         end_game()
+
 
 def retour_main_menu():
     for widget in racine.winfo_children():
