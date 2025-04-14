@@ -172,20 +172,20 @@ def nouvelle_partie():
     global restart_image,retour_image,valider_image
     restart_image = tk.PhotoImage(file="photo/restarticon.png")
     button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
-    button_restart.grid(row=8, column=5)
+    button_restart.grid(row=9, column=4)
     retour_image = tk.PhotoImage(file="photo/returnicon.png")
     button_retour = tk.Button(racine, image=retour_image, borderwidth=0, command=retour)
-    button_retour.grid(row=9, column=5)
+    button_retour.grid(row=7, column=4)
     valider_image = tk.PhotoImage(file="photo/checkmarkicon45.png")
     valider_button = tk.Button(racine, image=valider_image, borderwidth=0, command=valider)
-    valider_button.grid(row=10, column=5)
+    valider_button.grid(row=8, column=4)
     create_texte()
-    retour_image = tk.PhotoImage(file="photo/returnicon.png")
+    '''retour_image = tk.PhotoImage(file="photo/returnicon.png")
     button_retour = tk.Button(racine, image=retour_image, borderwidth=0, command=retour)
     button_retour.grid(row=8, column=4)
     restart_image = tk.PhotoImage(file="photo/restarticon.png")
     button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
-    button_restart.grid(row=9, column=4)
+    button_restart.grid(row=9, column=4)'''
 
 
 
