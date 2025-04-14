@@ -234,8 +234,12 @@ def valider():
             GAGNE = True
             end_game()
         elif current_canva == 9:
-            affiche_texte("Out of Attemps!")##checkkkk
+            affiche_texte("Out of Attemps!")# checkkkk
             end_game()
+            current_canva = 0
+            clicked_colors.clear()
+            current_circle = 0
+            return None
         current_canva +=1
         clicked_colors.clear()
         current_circle = 0
@@ -322,11 +326,13 @@ def mode_2_joueurs():
 
 def end_game():
     global correct_positions
-    rejouer=messagebox.askyesno("Partie termine !!!voulez_vous rejouer?", parent=racine)
+    rejouer = messagebox.askyesno("Partie termine !!!voulez_vous rejouer?", parent=racine)
     if rejouer:
         nouvelle_partie()
     else:
         retour_main_menu
+
+
 def check():
     if affiche_texte=="Out of Attempts" or correct_positions==4:
         end_game()
@@ -337,8 +343,8 @@ def retour_main_menu():
         widget.destroy()
         tk.Button(racine, text="One Player Mode", command=mode_1_joueur).grid(row=0, column=0)
         tk.Button(racine, text="Two Player Mode", command=mode_2_joueurs).grid(row=1, column=0)
-        Mastermind_image=tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
-        MM_button=tk.Button(racine,image=Mastermind_image, borderwidth=0 ,command=nouvelle_partie)
+        Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
+        MM_button = tk.Button(racine, image=Mastermind_image, borderwidth=0, command=nouvelle_partie)
         MM_button.place(relx=0.35, rely=0.4)
 
 
