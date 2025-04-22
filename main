@@ -73,6 +73,7 @@ def affiche_texte(texte):
     '''change le texte dans le label'''
     label.configure(text=texte)
 
+
 ###############################################################################
 # fonction pour le deroulement de la partie
 
@@ -169,7 +170,7 @@ def nouvelle_partie():
                               command=partie_precedente)
     previous_game.grid(column=3, row=12)
 
-    global restart_image,retour_image,valider_image
+    global restart_image, retour_image, valider_image
     restart_image = tk.PhotoImage(file="photo/restarticon.png")
     button_restart = tk.Button(racine, image=restart_image, borderwidth=0, command=nouvelle_partie)
     button_restart.grid(row=9, column=4)
@@ -186,7 +187,7 @@ def nouvelle_partie():
 # fonctions pour les differentes options du jeu
 
 
-def input():
+def input(entry):
     '''recupere le input'''
     user_input = entry.get()
     label.config(text=f"You entered: {user_input}")
@@ -219,13 +220,13 @@ def valider():
             GAGNE = True
             end_game()
         elif current_canva == 9:
-            affiche_texte("Out of Attemps!")# checkkkk
+            affiche_texte("Out of Attemps!")  # checkkkk
             end_game()
             current_canva = 0
             clicked_colors.clear()
             current_circle = 0
             return None
-        current_canva +=1
+        current_canva += 1
         clicked_colors.clear()
         current_circle = 0
 
@@ -314,12 +315,10 @@ def end_game():
     rejouer = messagebox.askyesno("Partie termine !!!voulez_vous rejouer?", parent=racine)
     if rejouer:
         nouvelle_partie()
-    else:
-        retour_main_menu
 
 
 def check():
-    if affiche_texte=="Out of Attempts" or correct_positions==4:
+    if affiche_texte == "Out of Attempts" or correct_positions == 4:
         end_game()
 
 
