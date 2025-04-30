@@ -323,29 +323,43 @@ def mode_2_joueurs():
     mode = 2
     nouvelle_partie()
 
+#To customize the message box cuz idk know how to create a new window crazyyyy.
 
-def end_game():
-    global correct_positions
-    rejouer = messagebox.askyesno("Partie termine !!!voulez_vous rejouer?", parent=racine)
-    if rejouer:
-        nouvelle_partie()
-    else:
-        retour_main_menu
+def end_game(): #j'ai eu un peu d'aide pour celui la.
+    dialog = tk.Toplevel(racine)
+    dialog.title("Partie terminée !")
+    dialog.geometry("500x200") 
+    
+    label = tk.Label(dialog, text="La partie est terminée.", font=("Arial", 12))
+    label.pack(pady=20)
 
+    button_frame = tk.Frame(dialog)
+    button_frame.pack(pady=10)
 
-def check():
-    if affiche_texte=="Out of Attempts" or correct_positions==4:
-        end_game()
+    rejouer_button = tk.Button(button_frame, text="Rejouer", width=10, command=lambda: [dialog.destroy(), nouvelle_partie()])
+    rejouer_button.pack(side="left", padx=10)
 
+    retour_button = tk.Button(button_frame, text="Menu principal", width=15, command=lambda: [dialog.destroy(), retour_main_menu()])
+    retour_button.pack(side="right", padx=10)
 
 def retour_main_menu():
+    global Mastermind_image #garder une reference de l'image pour ne pas avoir un garbage.
     for widget in racine.winfo_children():
         widget.destroy()
-        tk.Button(racine, text="One Player Mode", command=mode_1_joueur).grid(row=0, column=0)
-        tk.Button(racine, text="Two Player Mode", command=mode_2_joueurs).grid(row=1, column=0)
-        Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
-        MM_button = tk.Button(racine, image=Mastermind_image, borderwidth=0, command=nouvelle_partie)
-        MM_button.place(relx=0.35, rely=0.4)
+    mode1 = tk.Button(racine, text="One Player Mode", command=mode_1_joueur)
+    mode1.place(relx=0.46, rely=0.6)
+    mode2 = tk.Button(racine, text="Two Player Mode", command=mode_2_joueurs)
+    mode2.place(relx=0.46, rely=0.65)
+    entry = tk.Entry(racine)
+    entry.grid(row=2, column=1)
+    button_submit = tk.Button(racine, text="Submit", command=input)
+    button_submit.grid(row=3, column=1)
+    label = tk.Label(racine, text="Nommer la partie")
+    label.grid(row=4, column=1)
+    Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
+    MM_button = tk.Button(racine, image=Mastermind_image, borderwidth=0, command=nouvelle_partie)
+    MM_button.place(relx=0.35, rely=0.4)
+
 
 
 mode1 = tk.Button(racine, text="One Player Mode", command=mode_1_joueur)
@@ -353,7 +367,7 @@ mode1.place(relx=0.46, rely=0.6)
 mode2 = tk.Button(racine, text="Two Player Mode", command=mode_2_joueurs)
 mode2.place(relx=0.46, rely=0.65)
 Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
-MM_button = tk.Button(racine, image=Mastermind_image, borderwidth=0, command=nouvelle_partie)
+MM_button = tk.Button(racine, image=Mastermind_image, borderwidth=0)
 MM_button.place(relx=0.35, rely=0.4)
 entry = tk.Entry(racine)
 entry.grid(row=2, column=1)
