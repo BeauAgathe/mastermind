@@ -170,11 +170,11 @@ def new_game():
     button_restart.grid(row=9, column=4)
     back_image = tk.PhotoImage(file="photo/returnicon.png")
     button_back = tk.Button(root, image=back_image, borderwidth=0,
-                              command=back)
+                            command=back)
     button_back.grid(row=7, column=4)
     check_image = tk.PhotoImage(file="photo/checkmarkicon45.png")
     check_button = tk.Button(root, image=check_image, borderwidth=0,
-                               command=check)
+                             command=check)
     check_button.grid(row=8, column=4)
     create_texte()
     if GAGNE is True:
@@ -256,7 +256,7 @@ def change_color_secret(coulor_button):
     clicked_colors.append(coulor_button)
     if current_circle < 4:
         caanva.itemconfig(cercles2[current_circle],
-                         fill=clicked_colors[-1])
+                          fill=clicked_colors[-1])
         current_circle += 1
 
 
@@ -273,12 +273,10 @@ def choose_secret_code():
     caanva.pack(pady=20)
     for i in range(4):
         cercle = caanva.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
-                                   outline="black", width=2, fill="white")
+                                    outline="black", width=2, fill="white")
         cercles2.append(cercle)
-    buttons = tk.Button(window_code)
-    buttons.pack(pady=10)
     for couleur in colors:
-        boutton = tk.Button(buttons, text=couleur.capitalize(), bg=couleur,
+        boutton = tk.Button(window_code, text=couleur.capitalize(), bg=couleur,
                             command=lambda c=couleur: change_color_secret(c))
         boutton.pack(side=tk.LEFT, padx=5)
     label_code_secret = tk.Label(window_code, text="", font=(14))
