@@ -37,7 +37,7 @@ root.columnconfigure(3, weight=1)
 # fonctions pour l'interface
 
 
-def create_canvas(racine):
+def create_canvas(root):
     '''fabrique les 12 canvas avec les emplacements dedans'''
     global circles, canvas
     circles = []
@@ -49,12 +49,12 @@ def create_canvas(racine):
         for j in range(4):
             center_x = 50 + 60*j
             center_y = 25
-            circle = dessine_cercle(center_x, center_y, canva)
+            circle = draw_cercle(center_x, center_y, canva)
             circles.append(circle)
         empty_circles.append(circles)
 
 
-def dessine_cercle(center_x, center_y, canva):
+def draw_cercle(center_x, center_y, canva):
     """dessine un cercle sur le canva"""
     return canva.create_oval(center_x + 20, center_y + 20,
                              center_x - 20, center_y - 20, outline="purple")
@@ -154,9 +154,9 @@ def new_game():
         widget.destroy()
     create_canvas(root)
     create_buttons()
-    sauvegarde = tk.Button(root, text="Sauvegarder la partie",
+    sauvegarder = tk.Button(root, text="Sauvegarder la partie",
                            command=save)
-    sauvegarde.grid(column=2, row=12)
+    sauvegarder.grid(column=2, row=12)
     global found_positions, found_colors
     found_positions = [None, None, None, None]
     found_colors = []
@@ -252,6 +252,7 @@ def save():
 
 
 def choose_secret_code():
+    global window_code, cercles2
     '''le deuxieme utilisateur va choisir un code secret'''
     window_code = tk.Tk()
     window_code.title("CHOISIR CODE SECRET")
@@ -262,19 +263,16 @@ def choose_secret_code():
         cercle = canva.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
                                    outline="black", width=2, fill="white")
         cercles2.append(cercle)
-    buttons = tk.Button(window_code)
-    buttons.pack(pady=10)
     for couleur in colors:
-        couleur = tk.Button(buttons, text=couleur.capitalize(), bg=couleur,
-                            command=lambda c=colors: change_color_circle(c))
+        couleur = tk.Button(window_code, bg=couleur,
+                            command=lambda c=colors: change_color_cercle(c))
         couleur.pack(side=tk.LEFT, padx=5)
-    label_code_secret = tk.Label(window_code, text="", font=(14))
-    label_code_secret.pack(pady=10)
     enregistrer_button = tk.Button(window_code,
                                    text="Enregistrer Code Secret")
     enregistrer_button.pack(pady=10)
     window_code.mainloop()
     return clicked_colors
+
 
 
 def create_secret_code():
@@ -365,7 +363,7 @@ def help():
 
 mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player)
 mode1.place(relx=0.46, rely=0.6)
-mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players)
+mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players)
 mode2.place(relx=0.46, rely=0.65)
 Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
 MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
