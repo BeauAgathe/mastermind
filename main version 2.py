@@ -95,7 +95,6 @@ def change_color_circle(coulor_button):
         # clicked colors est une liste des couleur du code du joueur qui
         # se remplit au fur et a mesure du choix des couleurs.
         current_circle += 1
-    print("hello")
 
 
 def compare_codes(guess, secret):
@@ -137,12 +136,12 @@ def display_feedback(correct, misplaced, row):
 def new_game():
     '''on réinitialise la fenêtre et
     recommence une partie avec nouveau code secret'''
-    global GAGNE, code_secret
+    global GAGNE, code_secret, chosen_secret_code
     GAGNE = False
     if mode == 1:
         code_secret = create_secret_code()
     if mode == 2:
-        code_secret = choose_secret_code()
+        code_secret = chosen_secret_code
     global canvas, empty_circles, clicked_colors
     global current_canva, current_circle, tentatives
     canvas = []
@@ -204,7 +203,7 @@ def back():
 def check():
     '''va envoyer le feedback et passer au canva suivant'''
     global current_circle, clicked_colors, correct_positions
-    global misplaced_positions, current_canva
+    global misplaced_positions, current_canva, code_secret
     if current_circle == 4:
         tentatives[current_canva] = clicked_colors
         # compare_couleurs_texte(clicked_colors, code_secret)
@@ -258,10 +257,13 @@ def change_color_secret(coulor_button):
         caanva.itemconfig(cercles2[current_circle],
                           fill=clicked_colors[-1])
         current_circle += 1
+    global chosen_secret_code
+    chosen_secret_code = clicked_colors
 
 
 def choose_secret_code():
     '''le deuxieme utilisateur va choisir un code secret'''
+    global window_code
     window_code = tk.Tk()
     window_code.title("CHOISIR CODE SECRET")
     global caanva, clicked_colors, current_circle, vide_circles, cercles2
@@ -282,10 +284,12 @@ def choose_secret_code():
     label_code_secret = tk.Label(window_code, text="", font=(14))
     label_code_secret.pack(pady=10)
     enregistrer_button = tk.Button(window_code,
-                                   text="Enregistrer Code Secret", command=lambda :[ window_code.destroy()])
+                                   text="Enregistrer Code Secret", command=lambda: [window_code.destroy(), new_game()])
     enregistrer_button.pack(pady=10)
     window_code.mainloop()
-    return clicked_colors
+    if len(clicked_colors) == 4:
+        return clicked_colors
+    
 
 
 
@@ -308,8 +312,9 @@ def mode_1_player():
 
 def mode_2_players():
     '''un joueur choisi le code secret et un autre joueur le devine'''
-    global mode
+    global mode, chosen_secret_code
     mode = 2
+    chosen_secret_code = choose_secret_code()
     new_game()
 
 # To customize the message box cuz idk know how to create a new window crazyyyy
