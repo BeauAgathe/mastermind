@@ -290,6 +290,7 @@ def choose_secret_code():
 
 
 
+
 def create_secret_code():
     '''fabrique aléatoirement un code couleur à deviner'''
     The_secret_code = []
