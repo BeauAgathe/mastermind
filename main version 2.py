@@ -95,6 +95,7 @@ def change_color_circle(coulor_button):
         # clicked colors est une liste des couleur du code du joueur qui
         # se remplit au fur et a mesure du choix des couleurs.
         current_circle += 1
+    print("hello")
 
 
 def compare_codes(guess, secret):
@@ -249,6 +250,14 @@ def save():
     sauv.close()
 
 
+def change_color_secret(coulor_button):
+    '''quand on clique sur un boutton ça change la couleur du cercle'''
+    global current_circle
+    clicked_colors.append(coulor_button)
+    if current_circle < 4:
+        caanva.itemconfig(cercles2[current_circle],
+                         fill=clicked_colors[-1])
+        current_circle += 1
 
 
 def choose_secret_code():
@@ -256,17 +265,23 @@ def choose_secret_code():
     '''le deuxieme utilisateur va choisir un code secret'''
     window_code = tk.Tk()
     window_code.title("CHOISIR CODE SECRET")
+    global caanva, clicked_colors, current_circle, vide_circles, cercles2
     cercles2 = []
-    canva = tk.Canvas(window_code, width=400, height=80)
-    canva.pack(pady=20)
+    vide_circles = [None, None, None, None]
+    clicked_colors = []
+    current_circle = 0
+    caanva = tk.Canvas(window_code, width=400, height=80)
+    caanva.pack(pady=20)
     for i in range(4):
-        cercle = canva.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
+        cercle = caanva.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
                                    outline="black", width=2, fill="white")
         cercles2.append(cercle)
     for couleur in colors:
-        couleur = tk.Button(window_code, bg=couleur,
-                            command=lambda c=colors: change_color_cercle(c))
+        couleur = tk.Button(buttons, text=couleur.capitalize(), bg=couleur,
+                            command=lambda c=colors: change_color_circle(c))
         couleur.pack(side=tk.LEFT, padx=5)
+    label_code_secret = tk.Label(window_code, text="", font=(14))
+    label_code_secret.pack(pady=10)
     enregistrer_button = tk.Button(window_code,
                                    text="Enregistrer Code Secret")
     enregistrer_button.pack(pady=10)
