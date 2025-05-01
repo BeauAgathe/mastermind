@@ -261,7 +261,6 @@ def change_color_secret(coulor_button):
 
 
 def choose_secret_code():
-    global window_code, cercles2
     '''le deuxieme utilisateur va choisir un code secret'''
     window_code = tk.Tk()
     window_code.title("CHOISIR CODE SECRET")
@@ -283,10 +282,11 @@ def choose_secret_code():
     label_code_secret = tk.Label(window_code, text="", font=(14))
     label_code_secret.pack(pady=10)
     enregistrer_button = tk.Button(window_code,
-                                   text="Enregistrer Code Secret")
+                                   text="Enregistrer Code Secret", command=lambda :[ window_code.destroy()])
     enregistrer_button.pack(pady=10)
     window_code.mainloop()
     return clicked_colors
+
 
 
 
