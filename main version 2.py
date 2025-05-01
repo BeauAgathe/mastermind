@@ -277,15 +277,9 @@ def choose_secret_code():
                                     outline="black", width=2, fill="white")
         cercles2.append(cercle)
     for couleur in colors:
-<<<<<<< HEAD
-        couleur = tk.Button(buttons, text=couleur.capitalize(), bg=couleur,
-                            command=lambda c=colors: change_color_circle(c))
-        couleur.pack(side=tk.LEFT, padx=5)
-=======
         boutton = tk.Button(window_code, text=couleur.capitalize(), bg=couleur,
                             command=lambda c=couleur: change_color_secret(c))
         boutton.pack(side=tk.LEFT, padx=5)
->>>>>>> 637c94d8e045dce78977ac2bed4d23b96d1b8030
     label_code_secret = tk.Label(window_code, text="", font=(14))
     label_code_secret.pack(pady=10)
     enregistrer_button = tk.Button(window_code,
