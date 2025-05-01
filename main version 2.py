@@ -359,6 +359,20 @@ def aide():
             hint[i] = couleurs_trouvees[n]
         else:
             hint[i] = positions_trouvees[i]
+    for i in range(4):
+        color = hint[i]
+        if color == "#EF476F":
+            hint[i] = "rouge"
+        if color == "#FFD166":
+            hint[i] = "jaune"
+        if color == "#06D6A0":
+            hint[i] = "vert"
+        if color == "#118AB2":
+            hint[i] = "bleu"
+        if color == "beige":
+            hint[i] = "blanc"
+        if color == "#073B4C":
+            hint[i] = "noir"
     str_hint = "Vous pouvez essayer le code: " + str(hint)
     affiche_texte(str_hint)
     print("positions", positions_trouvees)
