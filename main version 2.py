@@ -3,7 +3,7 @@
 import tkinter as tk
 import random as rd
 import json
-import os
+from pathlib import Path
 
 # les couleurs qu'on peut utiliser dans le jeu:
 red = "#EF476F"
@@ -179,13 +179,9 @@ def new_game():
     check_button.grid(row=8, column=4)
     create_texte()
     if GAGNE is True:
-        nom_fichier = "sauvegarde_mastermind.json"
-        os.remove(nom_fichier)
         display_text("Gagné! Bravo")
         return None
     if current_canva == len(canvas) and GAGNE is False:
-        nom_fichier = "sauvegarde_mastermind.json"
-        os.remove(nom_fichier)
         display_text("Perdu!")
         return None
 
@@ -264,7 +260,8 @@ def charger_partie(nom_fichier="sauvegarde_mastermind.json"):
 
 def affiche_ancienne_partie(partie):
     '''va afficher la partie enregistrée sur les canvas'''
-    global mode, code_secret, GAGNE, current_canva, tentatives, found_positions, found_colors
+    global mode, code_secret, GAGNE, current_canva, tentatives
+    global found_positions, found_colors, empty_circles
     mode = partie["mode"]
     code_secret = partie["code secret"]
     GAGNE = partie["GAGNE"]
@@ -295,13 +292,9 @@ def affiche_ancienne_partie(partie):
     check_button.grid(row=8, column=4)
     create_texte()
     if GAGNE is True:
-        nom_fichier = "sauvegarde_mastermind.json"
-        os.remove(nom_fichier)
         display_text("Gagné! Bravo")
         return None
     if current_canva == 10 and GAGNE is False:
-        nom_fichier = "sauvegarde_mastermind.json"
-        os.remove(nom_fichier)
         display_text("Perdu!")
         return None
 
@@ -429,6 +422,8 @@ def mode_2_players():
 
 def end_game():  # j'ai eu un peu d'aide pour celui la.
     '''la partie est terminée'''
+    nom_fichier = Path("sauvegarde_mastermind.json")
+    nom_fichier.unlink()
     dialog = tk.Toplevel(root)
     dialog.title("Partie terminée !")
     dialog.geometry("500x200")
