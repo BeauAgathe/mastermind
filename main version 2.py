@@ -241,6 +241,7 @@ def save():
     dico["tentatives"] = tentatives
     dico["couleurs trouvées"] = found_colors
     dico["positions trovées"] = found_positions
+    dico["cercles vides"] = empty_circles
     sauvegarder_partie(dico)
     return None
 
@@ -271,6 +272,7 @@ def affiche_ancienne_partie(partie):
     tentatives = partie["tentatives"]
     found_positions = partie["positions trovées"]
     found_colors = partie["couleurs trouvées"]
+    empty_circles = partie["cercles vides"]
     create_saved_canvas(tentatives)
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
@@ -297,7 +299,7 @@ def affiche_ancienne_partie(partie):
         os.remove(nom_fichier)
         display_text("Gagné! Bravo")
         return None
-    if current_canva == len(canvas) and GAGNE is False:
+    if current_canva == 10 and GAGNE is False:
         nom_fichier = "sauvegarde_mastermind.json"
         os.remove(nom_fichier)
         display_text("Perdu!")
@@ -309,9 +311,9 @@ def create_saved_canvas(tentatives):
     global circles, canvas
     circles = []
     canvas = []
-    for i in range(1, current_canva):
+    for i in range(current_canva):
         canva = tk.Canvas(root, width=350, height=50, bg="pink")
-        canva.grid(row=i, column=2, pady=5)
+        canva.grid(row=i+1, column=2, pady=5)
         canvas.append(canva)
         for h in range(4):
             color = tentatives[i - 1][h]
@@ -319,7 +321,8 @@ def create_saved_canvas(tentatives):
             center_y = 25
             circle = draw_cercle(center_x, center_y, canva, color)
             circles.append(circle)
-    for k in range(current_canva, 11):
+        empty_circles.append(circles)
+    for k in range(current_canva + 1, 11):
         canva = tk.Canvas(root, width=350, height=50, bg="pink")
         canva.grid(row=k, column=2, pady=5)
         canvas.append(canva)
@@ -329,7 +332,6 @@ def create_saved_canvas(tentatives):
             circle = draw_cercle(center_x, center_y, canva, "pink")
             circles.append(circle)
         empty_circles.append(circles)
-
 
 
 def help():
