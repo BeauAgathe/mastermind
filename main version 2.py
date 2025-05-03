@@ -2,6 +2,8 @@
 
 import tkinter as tk
 import random as rd
+import json
+import os
 
 # les couleurs qu'on peut utiliser dans le jeu:
 red = "#EF476F"
@@ -38,7 +40,7 @@ root.columnconfigure(3, weight=1)
 
 
 def create_canvas(root):
-    '''fabrique les 12 canvas avec les emplacements dedans'''
+    '''fabrique les 10 canvas avec les emplacements dedans'''
     global circles, canvas
     circles = []
     canvas = []
@@ -49,15 +51,15 @@ def create_canvas(root):
         for j in range(4):
             center_x = 50 + 60*j
             center_y = 25
-            circle = draw_cercle(center_x, center_y, canva)
+            circle = draw_cercle(center_x, center_y, canva, "pink")
             circles.append(circle)
         empty_circles.append(circles)
 
 
-def draw_cercle(center_x, center_y, canva):
+def draw_cercle(center_x, center_y, canva, color):
     """dessine un cercle sur le canva"""
     return canva.create_oval(center_x + 20, center_y + 20,
-                             center_x - 20, center_y - 20, outline="purple")
+                             center_x - 20, center_y - 20, outline="purple", fill = color)
 
 
 def create_buttons():
@@ -149,7 +151,7 @@ def new_game():
     clicked_colors = []
     current_canva = 0
     current_circle = 0
-    tentatives = [[], [], [], [], [], [], [], [], [], [], []]
+    tentatives = []
     for widget in root.winfo_children():
         widget.destroy()
     create_canvas(root)
@@ -177,9 +179,13 @@ def new_game():
     check_button.grid(row=8, column=4)
     create_texte()
     if GAGNE is True:
+        nom_fichier = "sauvegarde_mastermind.json"
+        os.remove(nom_fichier)
         display_text("Gagné! Bravo")
         return None
     if current_canva == len(canvas) and GAGNE is False:
+        nom_fichier = "sauvegarde_mastermind.json"
+        os.remove(nom_fichier)
         display_text("Perdu!")
         return None
 
@@ -202,11 +208,10 @@ def back():
 
 def check():
     '''va envoyer le feedback et passer au canva suivant'''
-    global current_circle, clicked_colors, correct_positions
+    global current_circle, clicked_colors, correct_positions, tentatives
     global misplaced_positions, current_canva, code_secret
     if current_circle == 4:
-        tentatives[current_canva] = clicked_colors
-        # compare_couleurs_texte(clicked_colors, code_secret)
+        tentatives.append(clicked_colors[:])
         correct_positions, misplaced_positions = compare_codes(clicked_colors, code_secret)
         display_feedback(correct_positions, misplaced_positions, current_canva)
         if correct_positions == 4:
@@ -227,26 +232,132 @@ def check():
 
 
 def save():
-    '''pour enregistrer la partie dans le fichier'''
-    sauv = open('fichier de sauvegarde', "a")
+    '''pour mettre la partie sous forme de dico et l'enregistrer'''
     dico = {}
-    m = 0
-    r = None
-    if mode == 1:
-        m = "un seul joueur"
-    if mode == 2:
-        m = "deux joueurs"
-    dico["mode"] = m
+    dico["mode"] = mode
+    dico["GAGNE"] = GAGNE
     dico["code secret"] = code_secret
-    if GAGNE is True:
-        r = "victoire, le code secret a été deviné"
-    if GAGNE is False:
-        r = "défaite, le code secret n'a pas été deviné"
-    dico["résulat"] = r
     dico["nombre d'essais"] = current_canva
     dico["tentatives"] = tentatives
-    sauv.write(str(dico) + "\n")
-    sauv.close()
+    dico["couleurs trouvées"] = found_colors
+    dico["positions trovées"] = found_positions
+    sauvegarder_partie(dico)
+    return None
+
+
+def sauvegarder_partie(partie):
+    '''pour enregistrer la partie dans le fichier'''
+    nom_fichier = "sauvegarde_mastermind.json"
+    with open(nom_fichier, "w") as f:
+        json.dump(partie, f, indent=4)
+
+
+def charger_partie(nom_fichier="sauvegarde_mastermind.json"):
+    '''pour lancer la partie enregistrée'''
+    try:
+        with open(nom_fichier, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return None
+
+
+def affiche_ancienne_partie(partie):
+    '''va afficher la partie enregistrée sur les canvas'''
+    global mode, code_secret, GAGNE, current_canva, tentatives, found_positions, found_colors
+    mode = partie["mode"]
+    code_secret = partie["code secret"]
+    GAGNE = partie["GAGNE"]
+    current_canva = partie["nombre d'essais"]
+    tentatives = partie["tentatives"]
+    found_positions = partie["positions trovées"]
+    found_colors = partie["couleurs trouvées"]
+    create_saved_canvas(tentatives)
+    create_buttons()
+    sauvegarder = tk.Button(root, text="Sauvegarder la partie",
+                           command=save)
+    sauvegarder.grid(column=2, row=12)
+    hint = tk.Button(root, text="aide", command=help)
+    hint.grid(column=4, row=12)
+    global restart_image, back_image, check_image
+    restart_image = tk.PhotoImage(file="photo/restarticon.png")
+    button_restart = tk.Button(root, image=restart_image, borderwidth=0,
+                               command=new_game)
+    button_restart.grid(row=9, column=4)
+    back_image = tk.PhotoImage(file="photo/returnicon.png")
+    button_back = tk.Button(root, image=back_image, borderwidth=0,
+                            command=back)
+    button_back.grid(row=7, column=4)
+    check_image = tk.PhotoImage(file="photo/checkmarkicon45.png")
+    check_button = tk.Button(root, image=check_image, borderwidth=0,
+                             command=check)
+    check_button.grid(row=8, column=4)
+    create_texte()
+    if GAGNE is True:
+        nom_fichier = "sauvegarde_mastermind.json"
+        os.remove(nom_fichier)
+        display_text("Gagné! Bravo")
+        return None
+    if current_canva == len(canvas) and GAGNE is False:
+        nom_fichier = "sauvegarde_mastermind.json"
+        os.remove(nom_fichier)
+        display_text("Perdu!")
+        return None
+
+
+def create_saved_canvas(tentatives):
+    '''pour chaque tentative, on colorie les cercles du canva'''
+    global circles, canvas
+    circles = []
+    canvas = []
+    for i in range(1, current_canva):
+        canva = tk.Canvas(root, width=350, height=50, bg="pink")
+        canva.grid(row=i, column=2, pady=5)
+        canvas.append(canva)
+        for h in range(4):
+            color = tentatives[i - 1][h]
+            center_x = 50 + 60*h
+            center_y = 25
+            circle = draw_cercle(center_x, center_y, canva, color)
+            circles.append(circle)
+    for k in range(current_canva, 11):
+        canva = tk.Canvas(root, width=350, height=50, bg="pink")
+        canva.grid(row=k, column=2, pady=5)
+        canvas.append(canva)
+        for j in range(4):
+            center_x = 50 + 60*j
+            center_y = 25
+            circle = draw_cercle(center_x, center_y, canva, "pink")
+            circles.append(circle)
+        empty_circles.append(circles)
+
+
+
+def help():
+    '''renvoit un code qui marche avec les infos trouvées par le joueur'''
+    hint = [None, None, None, None]
+    for i in range(4):
+        if found_positions[i] is None:
+            n = rd.randint(0, len(found_colors))
+            hint[i] = found_colors[n]
+        else:
+            hint[i] = found_positions[i]
+    for i in range(4):
+        color = hint[i]
+        if color == "#EF476F":
+            hint[i] = "rouge"
+        if color == "#FFD166":
+            hint[i] = "jaune"
+        if color == "#06D6A0":
+            hint[i] = "vert"
+        if color == "#118AB2":
+            hint[i] = "bleu"
+        if color == "beige":
+            hint[i] = "blanc"
+        if color == "#073B4C":
+            hint[i] = "noir"
+    str_hint = "Vous pouvez essayer le code: " + str(hint)
+    display_text(str_hint)
+    return None
 
 
 def change_color_secret(coulor_button):
@@ -254,7 +365,7 @@ def change_color_secret(coulor_button):
     global current_circle
     clicked_colors.append(coulor_button)
     if current_circle < 4:
-        caanva.itemconfig(cercles2[current_circle],
+        canva_secret.itemconfig(cercles2[current_circle],
                           fill=clicked_colors[-1])
         current_circle += 1
     global chosen_secret_code
@@ -266,15 +377,15 @@ def choose_secret_code():
     global window_code
     window_code = tk.Tk()
     window_code.title("CHOISIR CODE SECRET")
-    global caanva, clicked_colors, current_circle, vide_circles, cercles2
+    global canva_secret, clicked_colors, current_circle, vide_circles, cercles2
     cercles2 = []
     vide_circles = [None, None, None, None]
     clicked_colors = []
     current_circle = 0
-    caanva = tk.Canvas(window_code, width=400, height=80)
-    caanva.pack(pady=20)
+    canva_secret = tk.Canvas(window_code, width=400, height=80)
+    canva_secret.pack(pady=20)
     for i in range(4):
-        cercle = caanva.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
+        cercle = canva_secret.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
                                     outline="black", width=2, fill="white")
         cercles2.append(cercle)
     for couleur in colors:
@@ -289,10 +400,6 @@ def choose_secret_code():
     window_code.mainloop()
     if len(clicked_colors) == 4:
         return clicked_colors
-    
-
-
-
 
 
 def create_secret_code():
@@ -317,10 +424,9 @@ def mode_2_players():
     chosen_secret_code = choose_secret_code()
     new_game()
 
-# To customize the message box cuz idk know how to create a new window crazyyyy
-
 
 def end_game():  # j'ai eu un peu d'aide pour celui la.
+    '''la partie est terminée'''
     dialog = tk.Toplevel(root)
     dialog.title("Partie terminée !")
     dialog.geometry("500x200")
@@ -338,6 +444,7 @@ def end_game():  # j'ai eu un peu d'aide pour celui la.
 
 
 def back_main_menu():
+    '''retour au menu principal'''
     global Mastermind_image  # garder reference image pour pas avoir un garbage
     for widget in root.winfo_children():
         widget.destroy()
@@ -353,44 +460,16 @@ def back_main_menu():
     MM_button.place(relx=0.35, rely=0.4)
 
 
-def help():
-    hint = [None, None, None, None]
-    for i in range(4):
-        if found_positions[i] is None:
-            n = rd.randint(0, len(found_colors))
-            hint[i] = found_colors[n]
-        else:
-            hint[i] = found_positions[i]
-    for i in range(4):
-        color = hint[i]
-        if color == "#EF476F":
-            hint[i] = "rouge"
-        if color == "#FFD166":
-            hint[i] = "jaune"
-        if color == "#06D6A0":
-            hint[i] = "vert"
-        if color == "#118AB2":
-            hint[i] = "bleu"
-        if color == "beige":
-            hint[i] = "blanc"
-        if color == "#073B4C":
-            hint[i] = "noir"
-    str_hint = "Vous pouvez essayer le code: " + str(hint)
-    display_text(str_hint)
-    print("positions", found_positions)
-    print("couleurs", found_colors)
-    return None
-
-
-mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player)
-mode1.place(relx=0.46, rely=0.6)
-mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players)
-mode2.place(relx=0.46, rely=0.65)
-Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
-MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
-MM_button.place(relx=0.35, rely=0.4)
+partie = charger_partie()
+if partie is not None:
+    affiche_ancienne_partie(partie)
+if partie is None:
+    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player)
+    mode1.place(relx=0.46, rely=0.6)
+    mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players)
+    mode2.place(relx=0.46, rely=0.65)
+    Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
+    MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
+    MM_button.place(relx=0.35, rely=0.4)
 
 root.mainloop()
-
-# Sauvegarder le jeu
-# creer une fonction qui récupère code secret (mode deux joueur)
