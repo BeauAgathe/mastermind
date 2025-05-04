@@ -18,8 +18,10 @@ colors = [red, yellow, green, blue, black, white]
 # création de la fenêtre de jeu
 root = tk.Tk()
 root.title("Mastermind")
-root.geometry("1200x1000")
-root["bg"] = "#80461B"
+root.geometry("550x1000")
+bg = tk.PhotoImage( file = "photo/wood.png") 
+label1 = tk.Label( root, image = bg) 
+label1.place(x = 0,y = 0, relwidth=1, relheight=1)
 
 # variables de jeu
 canvas = []
@@ -45,7 +47,7 @@ def create_canvas(root):
     circles = []
     canvas = []
     for i in range(1, 11):
-        canva = tk.Canvas(root, width=350, height=50, bg="pink")
+        canva = tk.Canvas(root, width=325, height=50, bg= "#d78a4e")
         canva.grid(row=i, column=2, pady=5)
         canvas.append(canva)
         for j in range(4):
@@ -59,7 +61,7 @@ def create_canvas(root):
 def draw_cercle(center_x, center_y, canva, color):
     """dessine un cercle sur le canva"""
     return canva.create_oval(center_x + 20, center_y + 20,
-                             center_x - 20, center_y - 20, outline="purple", fill = color)
+                             center_x - 20, center_y - 20, outline="#59230f", fill ='#e5b38c')
 
 
 def create_buttons():
@@ -124,7 +126,7 @@ def compare_codes(guess, secret):
 
 def display_feedback(correct, misplaced, row):
     '''rouge=bonne couleur et emplacement; blanc=bonne couleur'''
-    feedback_canvas = tk.Canvas(root, width=100, height=50, bg="pink")
+    feedback_canvas = tk.Canvas(root, width=100, height=50, bg="#d78a4e")
     feedback_canvas.grid(row=row+1, column=3)
     for i in range(correct):
         feedback_canvas.create_oval(10 + i * 20, 10, 30 + i * 20, 30,
@@ -145,7 +147,7 @@ def new_game():
     if mode == 2:
         code_secret = chosen_secret_code
     global canvas, empty_circles, clicked_colors
-    global current_canva, current_circle, tentatives
+    global current_canva, current_circle, tentatives, bg, label1
     canvas = []
     empty_circles = []
     clicked_colors = []
@@ -154,6 +156,9 @@ def new_game():
     tentatives = []
     for widget in root.winfo_children():
         widget.destroy()
+    bg = tk.PhotoImage( file = "photo/wood.png") 
+    label1 = tk.Label( root, image = bg) 
+    label1.place(x = 0,y = 0, relwidth=1, relheight=1)
     create_canvas(root)
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
@@ -165,17 +170,17 @@ def new_game():
     hint = tk.Button(root, text="aide", command=help)
     hint.grid(column=4, row=12)
     global restart_image, back_image, check_image
-    restart_image = tk.PhotoImage(file="photo/restarticon.png")
+    restart_image = tk.PhotoImage(file="photo/replay2.png")
     button_restart = tk.Button(root, image=restart_image, borderwidth=0,
-                               command=new_game)
+                               command=new_game, bg = '#e5b38c')
     button_restart.grid(row=9, column=4)
-    back_image = tk.PhotoImage(file="photo/returnicon.png")
+    back_image = tk.PhotoImage(file="photo/goback2.png")
     button_back = tk.Button(root, image=back_image, borderwidth=0,
-                            command=back)
+                            command=back, bg = '#e5b38c')
     button_back.grid(row=7, column=4)
-    check_image = tk.PhotoImage(file="photo/checkmarkicon45.png")
+    check_image = tk.PhotoImage(file="photo/done2.png")
     check_button = tk.Button(root, image=check_image, borderwidth=0,
-                             command=check)
+                             command=check, bg = '#e5b38c')
     check_button.grid(row=8, column=4)
     create_texte()
     if GAGNE is True:
@@ -199,7 +204,7 @@ def back():
         clicked_colors.pop()
         current_circle -= 1
         canvas[current_canva].itemconfig(empty_circles[current_canva][current_circle],
-                                         fill="pink")
+                                         fill="#e5b38c")
 
 
 def check():
@@ -278,17 +283,17 @@ def affiche_ancienne_partie(partie):
     hint = tk.Button(root, text="aide", command=help)
     hint.grid(column=4, row=12)
     global restart_image, back_image, check_image
-    restart_image = tk.PhotoImage(file="photo/restarticon.png")
+    restart_image = tk.PhotoImage(file="photo/replay2.png")
     button_restart = tk.Button(root, image=restart_image, borderwidth=0,
-                               command=new_game)
+                               command=new_game, bg = '#e5b38c')
     button_restart.grid(row=9, column=4)
-    back_image = tk.PhotoImage(file="photo/returnicon.png")
+    back_image = tk.PhotoImage(file="photo/goback2.png")
     button_back = tk.Button(root, image=back_image, borderwidth=0,
-                            command=back)
+                            command=back, bg = '#e5b38c')
     button_back.grid(row=7, column=4)
-    check_image = tk.PhotoImage(file="photo/checkmarkicon45.png")
+    check_image = tk.PhotoImage(file="photo/done2.png")
     check_button = tk.Button(root, image=check_image, borderwidth=0,
-                             command=check)
+                             command=check, bg = '#e5b38c')
     check_button.grid(row=8, column=4)
     create_texte()
     if GAGNE is True:
