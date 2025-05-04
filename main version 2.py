@@ -310,7 +310,7 @@ def create_saved_canvas(tentatives):
     circles = []
     canvas = []
     for i in range(current_canva):
-        canva = tk.Canvas(root, width=350, height=50, bg="pink")
+        canva = tk.Canvas(root, width=350, height=50, bg="#e5b38c")
         canva.grid(row=i+1, column=2, pady=5)
         canvas.append(canva)
         for h in range(4):
@@ -321,13 +321,13 @@ def create_saved_canvas(tentatives):
             circles.append(circle)
         empty_circles.append(circles)
     for k in range(current_canva + 1, 11):
-        canva = tk.Canvas(root, width=350, height=50, bg="pink")
+        canva = tk.Canvas(root, width=350, height=50, bg= "#e5b38c")
         canva.grid(row=k, column=2, pady=5)
         canvas.append(canva)
         for j in range(4):
             center_x = 50 + 60*j
             center_y = 25
-            circle = draw_cercle(center_x, center_y, canva, "pink")
+            circle = draw_cercle(center_x, center_y, canva, "#e5b38c")
             circles.append(circle)
         empty_circles.append(circles)
 
@@ -450,9 +450,9 @@ def back_main_menu():
     global Mastermind_image  # garder reference image pour pas avoir un garbage
     for widget in root.winfo_children():
         widget.destroy()
-    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player)
+    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg = '#e5b38c')
     mode1.place(relx=0.46, rely=0.6)
-    mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players)
+    mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players, bg= '#e5b38c')
     mode2.place(relx=0.46, rely=0.65)
     Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0,
@@ -464,9 +464,9 @@ partie = charger_partie()
 if partie is not None:
     affiche_ancienne_partie(partie)
 if partie is None:
-    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player)
+    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg = '#e5b38c')
     mode1.place(relx=0.46, rely=0.6)
-    mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players)
+    mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players, bg = '#e5b38c')
     mode2.place(relx=0.46, rely=0.65)
     Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
