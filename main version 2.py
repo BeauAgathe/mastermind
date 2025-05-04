@@ -4,6 +4,7 @@ import tkinter as tk
 import random as rd
 import json
 from pathlib import Path
+from tkinter import messagebox
 
 # les couleurs qu'on peut utiliser dans le jeu:
 red = "#EF476F"
@@ -162,12 +163,12 @@ def new_game():
     create_canvas(root)
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
-                           command=save)
+                           command=save, bg = '#e5b38c')
     sauvegarder.grid(column=2, row=12)
     global found_positions, found_colors
     found_positions = [None, None, None, None]
     found_colors = []
-    hint = tk.Button(root, text="aide", command=help)
+    hint = tk.Button(root, text="aide", command=help, bg = '#e5b38c')
     hint.grid(column=4, row=12)
     global restart_image, back_image, check_image
     restart_image = tk.PhotoImage(file="photo/replay2.png")
@@ -278,9 +279,9 @@ def affiche_ancienne_partie(partie):
     create_saved_canvas(tentatives)
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
-                           command=save)
+                           command=save, bg = '#e5b38c')
     sauvegarder.grid(column=2, row=12)
-    hint = tk.Button(root, text="aide", command=help)
+    hint = tk.Button(root, text="aide", command=help, bg = '#e5b38c')
     hint.grid(column=4, row=12)
     global restart_image, back_image, check_image
     restart_image = tk.PhotoImage(file="photo/replay2.png")
@@ -356,8 +357,8 @@ def help():
         if color == "#073B4C":
             hint[i] = "noir"
     str_hint = "Vous pouvez essayer le code: " + str(hint)
-    display_text(str_hint)
-    return None
+    messagebox.showinfo("Aide", str_hint)
+
 
 
 def change_color_secret(coulor_button):
