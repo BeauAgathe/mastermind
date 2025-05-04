@@ -447,9 +447,12 @@ def end_game():  #inspiree
 
 def back_main_menu():
     '''retour au menu principal'''
-    global Mastermind_image  # garder reference image pour pas avoir un garbage
+    global Mastermind_image,bg  # garder reference image pour pas avoir un garbage
     for widget in root.winfo_children():
         widget.destroy()
+    bg = tk.PhotoImage( file = "photo/wood.png")
+    label1 = tk.Label( root, image = bg) 
+    label1.place(x = 0,y = 0, relwidth=1, relheight=1)
     mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg = '#e5b38c')
     mode1.place(relx=0.46, rely=0.6)
     mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players, bg= '#e5b38c')
@@ -458,6 +461,7 @@ def back_main_menu():
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0,
                           command=new_game)
     MM_button.place(relx=0.35, rely=0.4)
+     
 
 
 partie = charger_partie()
