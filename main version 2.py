@@ -420,7 +420,7 @@ def mode_2_players():
     new_game()
 
 
-def end_game():  # j'ai eu un peu d'aide pour celui la.
+def end_game():  #inspiree
     '''la partie est terminée'''
     nom_fichier = Path("sauvegarde_mastermind.json")
     nom_fichier.unlink()
