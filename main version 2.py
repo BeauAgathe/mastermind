@@ -18,7 +18,7 @@ colors = [red, yellow, green, blue, black, white]
 # création de la fenêtre de jeu
 root = tk.Tk()
 root.title("Mastermind")
-root.geometry("550x1000")
+root.geometry("500x750")
 bg = tk.PhotoImage( file = "photo/wood.png") 
 label1 = tk.Label( root, image = bg) 
 label1.place(x = 0,y = 0, relwidth=1, relheight=1)
