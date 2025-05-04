@@ -465,11 +465,11 @@ if partie is not None:
     affiche_ancienne_partie(partie)
 if partie is None:
     mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg = '#e5b38c')
-    mode1.place(relx=0.46, rely=0.6)
+    mode1.place(relx=0.40, rely=0.6)
     mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players, bg = '#e5b38c')
-    mode2.place(relx=0.46, rely=0.65)
+    mode2.place(relx=0.40, rely=0.65)
     Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
-    MM_button.place(relx=0.35, rely=0.4)
+    MM_button.place(relx=0.20, rely=0.4)
 
 root.mainloop()
