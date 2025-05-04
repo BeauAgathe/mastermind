@@ -345,8 +345,6 @@ def back_main_menu():
     mode1.place(relx=0.46, rely=0.6)
     mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players)
     mode2.place(relx=0.46, rely=0.65)
-    entry = tk.Entry(root)
-    entry.grid(row=2, column=1)
     Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0,
                           command=new_game)
