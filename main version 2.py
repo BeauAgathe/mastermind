@@ -53,7 +53,7 @@ def create_canvas(root):
         for j in range(4):
             center_x = 50 + 60*j
             center_y = 25
-            circle = draw_cercle(center_x, center_y, canva, "pink")
+            circle = draw_cercle(center_x, center_y, canva, '#e5b38c')
             circles.append(circle)
         empty_circles.append(circles)
 
@@ -61,7 +61,7 @@ def create_canvas(root):
 def draw_cercle(center_x, center_y, canva, color):
     """dessine un cercle sur le canva"""
     return canva.create_oval(center_x + 20, center_y + 20,
-                             center_x - 20, center_y - 20, outline="#59230f", fill ='#e5b38c')
+                             center_x - 20, center_y - 20, outline="#59230f", fill =color)
 
 
 def create_buttons():
@@ -425,10 +425,8 @@ def mode_2_players():
     new_game()
 
 
-def end_game():  # j'ai eu un peu d'aide pour celui la.
+def end_game():  #inspiree
     '''la partie est terminée'''
-    nom_fichier = Path("sauvegarde_mastermind.json")
-    nom_fichier.unlink()
     dialog = tk.Toplevel(root)
     dialog.title("Partie terminée !")
     dialog.geometry("500x200")
@@ -443,6 +441,8 @@ def end_game():  # j'ai eu un peu d'aide pour celui la.
     back_button = tk.Button(button_frame, text="Menu principal", width=15,
                               command=lambda: [dialog.destroy(), back_main_menu()])
     back_button.pack(side="right", padx=10)
+    nom_fichier = Path("sauvegarde_mastermind.json")
+    nom_fichier.unlink()
 
 
 def back_main_menu():
