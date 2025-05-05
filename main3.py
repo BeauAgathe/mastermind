@@ -354,9 +354,11 @@ def create_saved_canvas(tentatives, liste_feedbacks):
 def help_me():
     '''renvoit un code qui marche avec les infos trouvées par le joueur'''
     hint = [None, None, None, None]
+    if len(found_colors)==0 and len(found_positions)==0:
+        return None
     for i in range(nbr_couleurs):
         if found_positions[i] is None:
-            n = rd.randint(0, len(found_colors))
+            n = rd.randint(0, len(found_colors)-1)
             hint[i] = found_colors[n]
         else:
             hint[i] = found_positions[i]
