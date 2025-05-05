@@ -392,27 +392,27 @@ def choose_secret_code():
     global window_code
     window_code = tk.Tk()
     window_code.title("CHOISIR CODE SECRET")
+    window_code.configure(bg='#e5b38c')
     global canva_secret, clicked_colors, current_circle, vide_circles, cercles2
     cercles2 = []
     vide_circles = [None, None, None, None]
     clicked_colors = []
     current_circle = 0
-    canva_secret = tk.Canvas(window_code, width=400, height=80)
+    canva_secret = tk.Canvas(window_code, width=400, height=80, bg = '#d78a4e')
     canva_secret.pack(pady=20)
     for i in range(4):
         cercle = canva_secret.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
-                                          outline="black", width=2,
-                                          fill="white")
+                                          outline="#59230f", width=2,
+                                          fill="#e5b38c")
         cercles2.append(cercle)
     for couleur in colors:
-        boutton = tk.Button(window_code, text=couleur.capitalize(), bg=couleur,
+        boutton = tk.Button(window_code, text='        ', bg=couleur,
                             command=lambda c=couleur: change_color_secret(c))
         boutton.pack(side=tk.LEFT, padx=5)
-    label_code_secret = tk.Label(window_code, text="", font=(14))
-    label_code_secret.pack(pady=10)
+
     enregistrer_button = tk.Button(window_code,
                                    text="Enregistrer Code Secret",
-                                   command=lambda: [window_code.destroy(), new_game()])
+                                   command=lambda: [window_code.destroy(), new_game()], bg = '#d78a4e', fg = '#59230f')
     enregistrer_button.pack(pady=10)
     window_code.mainloop()
     if len(clicked_colors) == 4:
@@ -447,6 +447,7 @@ def end_game():  # inspiree
     dialog = tk.Toplevel(root)
     dialog.title("Partie terminée !")
     dialog.geometry("500x200")
+    dialog.configure(bg='#d78a4e')
     label = tk.Label(dialog, text="La partie est terminée.",
                      font=("Arial", 12))
     label.pack(pady=20)
