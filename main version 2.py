@@ -493,7 +493,7 @@ def fireworks():
 
     animate()
 
-    # Supprimer après 2.5 secondes
+    # Supprimer après 5.0 secondes
     root.after(5000, canvas.destroy)
 
 

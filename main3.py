@@ -5,6 +5,7 @@ import random as rd
 import json
 from pathlib import Path
 from tkinter import messagebox
+import math
 
 # les couleurs qu'on peut utiliser dans le jeu:
 red = "#EF476F"
@@ -190,10 +191,8 @@ def new_game():
                              command=back_main_menu, bg='#e5b38c')
     check_button.grid(row=10, column=4)
     if GAGNE is True:
-        display_text("Gagné! Bravo")
         return None
     if current_canva == len(canvas) and GAGNE is False:
-        display_text("Perdu!")
         return None
 
 
@@ -307,12 +306,9 @@ def affiche_ancienne_partie(partie):
     check_button = tk.Button(root, image=home_image, borderwidth=0,
                              command=back_main_menu, bg='#e5b38c')
     check_button.grid(row=10, column=4)
-    create_texte()
     if GAGNE is True:
-        display_text("Gagné! Bravo")
         return None
     if current_canva == 10 and GAGNE is False:
-        display_text("Perdu!")
         return None
 
 
@@ -452,6 +448,7 @@ def end_game():  # inspiree
         labelg = tk.Label(dialog, text="BRAVOO! Vous avez gagné!",
                           font=("Times New Roman", 15), bg = '#e5b38c', fg = '#59230f')
         labelg.pack(pady=15)
+        fireworks()
     else:
         labelf = tk.Label(dialog, text="Vous avez perdu", font=("Times New Roman", 15), bg = '#59230f')
         labelf.pack(pady=15)
@@ -465,6 +462,42 @@ def end_game():  # inspiree
     back_button.pack(side="right", padx=10)
     nom_fichier = Path("sauvegarde_mastermind.json")
     nom_fichier.unlink()
+
+
+
+def fireworks(): #By chatGPT
+    canvas = tk.Canvas(root, width=root.winfo_width(), height=root.winfo_height(),
+                       highlightthickness=0, bg="#e5b38c", bd=0)
+    canvas.place(x=0, y=0)
+
+    explosions = []
+
+    for _ in range(24):  # Trois feux d'artifice
+        cx = rd.randint(100, root.winfo_width() - 100)
+        cy = rd.randint(100, root.winfo_height() // 2)
+        color = rd.choice(["red", "blue", "yellow", "orange", "purple", "cyan", "lime"])
+        particles = []
+
+        for angle in range(0, 360, 15):
+            radians = math.radians(angle)
+            dx = math.cos(radians) * 2
+            dy = math.sin(radians) * 2
+            dot = canvas.create_oval(cx, cy, cx+4, cy+4, fill=color, outline="")
+            particles.append((dot, dx, dy))
+
+        explosions.append(particles)
+
+    def animate():
+        for particles in explosions:
+            for dot, dx, dy in particles:
+                canvas.move(dot, dx, dy)
+        root.after(20, animate)
+
+    animate()
+
+    # Supprimer après 2.5 secondes
+    root.after(5000, canvas.destroy)
+
 
 
 def back_main_menu():
