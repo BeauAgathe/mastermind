@@ -170,7 +170,7 @@ def new_game():
     found_colors = []
     hint = tk.Button(root, text="aide", command=help, bg = '#e5b38c')
     hint.grid(column=4, row=12)
-    global restart_image, back_image, check_image
+    global restart_image, back_image, check_image, home_image
     restart_image = tk.PhotoImage(file="photo/replay2.png")
     button_restart = tk.Button(root, image=restart_image, borderwidth=0,
                                command=new_game, bg = '#e5b38c')
@@ -183,6 +183,10 @@ def new_game():
     check_button = tk.Button(root, image=check_image, borderwidth=0,
                              command=check, bg = '#e5b38c')
     check_button.grid(row=8, column=4)
+    home_image = tk.PhotoImage(file="photo/home.png")
+    check_button = tk.Button(root, image=home_image, borderwidth=0,
+                             command=back_main_menu, bg = '#e5b38c')
+    check_button.grid(row=10, column=4)
     create_texte()
     if GAGNE is True:
         display_text("Gagné! Bravo")
@@ -283,7 +287,7 @@ def affiche_ancienne_partie(partie):
     sauvegarder.grid(column=2, row=12)
     hint = tk.Button(root, text="aide", command=help, bg = '#e5b38c')
     hint.grid(column=4, row=12)
-    global restart_image, back_image, check_image
+    global restart_image, back_image, check_image, home_image
     restart_image = tk.PhotoImage(file="photo/replay2.png")
     button_restart = tk.Button(root, image=restart_image, borderwidth=0,
                                command=new_game, bg = '#e5b38c')
@@ -296,6 +300,10 @@ def affiche_ancienne_partie(partie):
     check_button = tk.Button(root, image=check_image, borderwidth=0,
                              command=check, bg = '#e5b38c')
     check_button.grid(row=8, column=4)
+    home_image = tk.PhotoImage(file="photo/home.png")
+    check_button = tk.Button(root, image=home_image, borderwidth=0,
+                             command=back_main_menu, bg = '#e5b38c')
+    check_button.grid(row=10, column=4)
     create_texte()
     if GAGNE is True:
         display_text("Gagné! Bravo")
