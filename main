@@ -294,7 +294,7 @@ def affiche_ancienne_partie(partie):
     global restart_image, back_image, check_image, home_image
     restart_image = tk.PhotoImage(file="photo/replay2.png")
     button_restart = tk.Button(root, image=restart_image, borderwidth=0,
-                               command=new_game, bg='#e5b38c')
+                               command=newww, bg='#e5b38c')
     button_restart.grid(row=9, column=4)
     back_image = tk.PhotoImage(file="photo/goback2.png")
     button_back = tk.Button(root, image=back_image, borderwidth=0,
@@ -315,6 +315,15 @@ def affiche_ancienne_partie(partie):
     if current_canva == nbr_essais and GAGNE is False:
         display_text("Perdu!")
         return None
+
+
+def newww():
+    if mode == 1:
+        new_game()
+        return None
+    if mode == 2:
+        mode_2_players()
+        return None       
 
 
 def create_saved_canvas(tentatives, liste_feedbacks):
