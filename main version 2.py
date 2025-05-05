@@ -434,6 +434,12 @@ def end_game():  #inspiree
     label = tk.Label(dialog, text="La partie est terminée.",
                      font=("Arial", 12))
     label.pack(pady=20)
+    if GAGNE==True:
+        labelg=tk.Label(dialog, text="BRAVOO! Vous avez gagné!",font=("Arial",15))
+        labelg.pack(pady=15)
+    else:
+        labelf=tk.Label(dialog,text="Vous avez perdu", font=("Arial",12))
+        labelf.pack(pady=15)
     button_frame = tk.Frame(dialog)
     button_frame.pack(pady=10)
     replay_button = tk.Button(button_frame, text="Rejouer", width=10,
