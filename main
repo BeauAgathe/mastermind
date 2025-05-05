@@ -19,7 +19,7 @@ colors = [red, yellow, green, blue, black, white]
 # création de la fenêtre de jeu
 root = tk.Tk()
 root.title("Mastermind")
-root.geometry("500x750")
+root.geometry("550x750")
 bg = tk.PhotoImage(file="photo/wood.png")
 label1 = tk.Label(root, image=bg)
 label1.place(x=0, y=0, relwidth=1, relheight=1)
@@ -460,7 +460,7 @@ def end_game():  # inspiree
     button_frame = tk.Frame(dialog)
     button_frame.pack(pady=10)
     replay_button = tk.Button(button_frame, text="Rejouer", width=10,
-                              command=lambda: [dialog.destroy(), new_game()])
+                              command=lambda: [dialog.destroy(), mode_2_players()])
     replay_button.pack(side="left", padx=10)
     back_button = tk.Button(button_frame, text="Menu principal", width=15,
                             command=lambda: [dialog.destroy(), back_main_menu()])
