@@ -456,7 +456,7 @@ def end_game():  # inspiree
                           font=("Arial", 15))
         labelg.pack(pady=15)
     else:
-        labelf = tk.Label(dialog, text="Vous avez perdu", font=("Arial", 12))
+        labelf = tk.Label(dialog, text="Vous avez perdu", font=("Arial", 15))
         labelf.pack(pady=15)
     button_frame = tk.Frame(dialog)
     button_frame.pack(pady=10)
