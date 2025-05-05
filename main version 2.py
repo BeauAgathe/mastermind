@@ -20,9 +20,9 @@ colors = [red, yellow, green, blue, black, white]
 root = tk.Tk()
 root.title("Mastermind")
 root.geometry("500x750")
-bg = tk.PhotoImage( file = "photo/wood.png") 
-label1 = tk.Label( root, image = bg) 
-label1.place(x = 0,y = 0, relwidth=1, relheight=1)
+bg = tk.PhotoImage(file="photo/wood.png") 
+label1 = tk.Label(root, image=bg) 
+label1.place(x=0, y=0, relwidth=1, relheight=1)
 
 # variables de jeu
 canvas = []
@@ -147,7 +147,7 @@ def new_game():
         code_secret = create_secret_code()
     if mode == 2:
         code_secret = chosen_secret_code
-    global canvas, empty_circles, clicked_colors
+    global canvas, empty_circles, clicked_colors, liste_feedbacks
     global current_canva, current_circle, tentatives, bg, label1
     canvas = []
     empty_circles = []
@@ -164,7 +164,7 @@ def new_game():
     create_canvas(root)
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
-                           command=save, bg='#e5b38c')
+                            command=save, bg='#e5b38c')
     sauvegarder.grid(column=2, row=12)
     global found_positions, found_colors
     found_positions = [None, None, None, None]
@@ -220,6 +220,8 @@ def check():
     if current_circle == 4:
         tentatives.append(clicked_colors[:])
         correct_positions, misplaced_positions = compare_codes(clicked_colors, code_secret)
+        feedback = [correct_positions, misplaced_positions]
+        liste_feedbacks.append(feedback[:])
         display_feedback(correct_positions, misplaced_positions, current_canva)
         if correct_positions == 4:
             display_text("You win!")
@@ -249,6 +251,7 @@ def save():
     dico["couleurs trouvées"] = found_colors
     dico["positions trovées"] = found_positions
     dico["cercles vides"] = empty_circles
+    dico["liste des feedbacks"] = liste_feedbacks
     sauvegarder_partie(dico)
     return None
 
@@ -272,7 +275,8 @@ def charger_partie(nom_fichier="sauvegarde_mastermind.json"):
 def affiche_ancienne_partie(partie):
     '''va afficher la partie enregistrée sur les canvas'''
     global mode, code_secret, GAGNE, current_canva, tentatives
-    global found_positions, found_colors, empty_circles
+    global found_positions, found_colors, empty_circles, liste_feedbacks
+    liste_feedbacks = partie["liste des feedbacks"]
     mode = partie["mode"]
     code_secret = partie["code secret"]
     GAGNE = partie["GAGNE"]
@@ -281,10 +285,10 @@ def affiche_ancienne_partie(partie):
     found_positions = partie["positions trovées"]
     found_colors = partie["couleurs trouvées"]
     empty_circles = partie["cercles vides"]
-    create_saved_canvas(tentatives)
+    create_saved_canvas(tentatives, liste_feedbacks)
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
-                           command=save, bg='#e5b38c')
+                            command=save, bg='#e5b38c')
     sauvegarder.grid(column=2, row=12)
     hint = tk.Button(root, text="aide", command=help, bg='#e5b38c')
     hint.grid(column=4, row=12)
@@ -314,7 +318,7 @@ def affiche_ancienne_partie(partie):
         return None
 
 
-def create_saved_canvas(tentatives):
+def create_saved_canvas(tentatives, liste_feedbacks):
     '''pour chaque tentative, on colorie les cercles du canva'''
     global circles, canvas
     circles = []
@@ -330,6 +334,7 @@ def create_saved_canvas(tentatives):
             circle = draw_cercle(center_x, center_y, canva, color)
             circles.append(circle)
         empty_circles.append(circles)
+        display_feedback(liste_feedbacks[i][0], liste_feedbacks[i][1], i)
     for k in range(current_canva + 1, 11):
         canva = tk.Canvas(root, width=350, height=50, bg="#d78a4e")
         canva.grid(row=k, column=2, pady=5)
@@ -442,7 +447,7 @@ def end_game():  # inspiree
     label = tk.Label(dialog, text="La partie est terminée.",
                      font=("Arial", 12))
     label.pack(pady=20)
-    if GAGNE == True:
+    if GAGNE is True:
         labelg = tk.Label(dialog, text="BRAVOO! Vous avez gagné!", font=("Arial", 15))
         labelg.pack(pady=15)
     else:
@@ -462,12 +467,12 @@ def end_game():  # inspiree
 
 def back_main_menu():
     '''retour au menu principal'''
-    global Mastermind_image,bg  # garder reference image pour pas avoir un garbage
+    global Mastermind_image, bg  # garder reference image pour pas avoir un garbage
     for widget in root.winfo_children():
         widget.destroy()
     bg = tk.PhotoImage(file="photo/wood.png")
     label1 = tk.Label(root, image=bg) 
-    label1.place(x=0,y=0, relwidth=1, relheight=1)
+    label1.place(x=0, y=0, relwidth=1, relheight=1)
     mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg='#e5b38c')
     mode1.place(relx=0.46, rely=0.6)
     mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players, bg='#e5b38c')
