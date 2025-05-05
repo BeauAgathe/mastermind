@@ -20,8 +20,8 @@ colors = [red, yellow, green, blue, black, white]
 root = tk.Tk()
 root.title("Mastermind")
 root.geometry("500x750")
-bg = tk.PhotoImage(file="photo/wood.png") 
-label1 = tk.Label(root, image=bg) 
+bg = tk.PhotoImage(file="photo/wood.png")
+label1 = tk.Label(root, image=bg)
 label1.place(x=0, y=0, relwidth=1, relheight=1)
 
 # variables de jeu
@@ -48,7 +48,7 @@ def create_canvas(root):
     circles = []
     canvas = []
     for i in range(1, 11):
-        canva = tk.Canvas(root, width=325, height=50, bg= "#d78a4e")
+        canva = tk.Canvas(root, width=325, height=50, bg="#d78a4e")
         canva.grid(row=i, column=2, pady=5)
         canvas.append(canva)
         for j in range(4):
@@ -62,7 +62,8 @@ def create_canvas(root):
 def draw_cercle(center_x, center_y, canva, color):
     """dessine un cercle sur le canva"""
     return canva.create_oval(center_x + 20, center_y + 20,
-                             center_x - 20, center_y - 20, outline="#59230f", fill =color)
+                             center_x - 20, center_y - 20, outline="#59230f",
+                             fill=color)
 
 
 def create_buttons():
@@ -158,8 +159,8 @@ def new_game():
     liste_feedbacks = []
     for widget in root.winfo_children():
         widget.destroy()
-    bg = tk.PhotoImage(file="photo/wood.png") 
-    label1 = tk.Label(root, image=bg) 
+    bg = tk.PhotoImage(file="photo/wood.png")
+    label1 = tk.Label(root, image=bg)
     label1.place(x=0, y=0, relwidth=1, relheight=1)
     create_canvas(root)
     create_buttons()
@@ -169,7 +170,7 @@ def new_game():
     global found_positions, found_colors
     found_positions = [None, None, None, None]
     found_colors = []
-    hint = tk.Button(root, text="aide", command=help, bg='#e5b38c')
+    hint = tk.Button(root, text="aide", command=help_me, bg='#e5b38c')
     hint.grid(column=4, row=12)
     global restart_image, back_image, check_image, home_image
     restart_image = tk.PhotoImage(file="photo/replay2.png")
@@ -290,7 +291,7 @@ def affiche_ancienne_partie(partie):
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
                             command=save, bg='#e5b38c')
     sauvegarder.grid(column=2, row=12)
-    hint = tk.Button(root, text="aide", command=help, bg='#e5b38c')
+    hint = tk.Button(root, text="aide", command=help_me, bg='#e5b38c')
     hint.grid(column=4, row=12)
     global restart_image, back_image, check_image, home_image
     restart_image = tk.PhotoImage(file="photo/replay2.png")
@@ -347,7 +348,7 @@ def create_saved_canvas(tentatives, liste_feedbacks):
         empty_circles.append(circles)
 
 
-def help():
+def help_me():
     '''renvoit un code qui marche avec les infos trouvées par le joueur'''
     hint = [None, None, None, None]
     for i in range(4):
@@ -380,7 +381,7 @@ def change_color_secret(coulor_button):
     clicked_colors.append(coulor_button)
     if current_circle < 4:
         canva_secret.itemconfig(cercles2[current_circle],
-                          fill=clicked_colors[-1])
+                                fill=clicked_colors[-1])
         current_circle += 1
     global chosen_secret_code
     chosen_secret_code = clicked_colors
@@ -400,7 +401,8 @@ def choose_secret_code():
     canva_secret.pack(pady=20)
     for i in range(4):
         cercle = canva_secret.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
-                                    outline="black", width=2, fill="white")
+                                          outline="black", width=2,
+                                          fill="white")
         cercles2.append(cercle)
     for couleur in colors:
         boutton = tk.Button(window_code, text=couleur.capitalize(), bg=couleur,
@@ -409,7 +411,8 @@ def choose_secret_code():
     label_code_secret = tk.Label(window_code, text="", font=(14))
     label_code_secret.pack(pady=10)
     enregistrer_button = tk.Button(window_code,
-                                   text="Enregistrer Code Secret", command=lambda: [window_code.destroy(), new_game()])
+                                   text="Enregistrer Code Secret",
+                                   command=lambda: [window_code.destroy(), new_game()])
     enregistrer_button.pack(pady=10)
     window_code.mainloop()
     if len(clicked_colors) == 4:
@@ -448,7 +451,8 @@ def end_game():  # inspiree
                      font=("Arial", 12))
     label.pack(pady=20)
     if GAGNE is True:
-        labelg = tk.Label(dialog, text="BRAVOO! Vous avez gagné!", font=("Arial", 15))
+        labelg = tk.Label(dialog, text="BRAVOO! Vous avez gagné!",
+                          font=("Arial", 15))
         labelg.pack(pady=15)
     else:
         labelf = tk.Label(dialog, text="Vous avez perdu", font=("Arial", 12))
@@ -456,10 +460,10 @@ def end_game():  # inspiree
     button_frame = tk.Frame(dialog)
     button_frame.pack(pady=10)
     replay_button = tk.Button(button_frame, text="Rejouer", width=10,
-                               command=lambda: [dialog.destroy(), new_game()])
+                              command=lambda: [dialog.destroy(), new_game()])
     replay_button.pack(side="left", padx=10)
     back_button = tk.Button(button_frame, text="Menu principal", width=15,
-                              command=lambda: [dialog.destroy(), back_main_menu()])
+                            command=lambda: [dialog.destroy(), back_main_menu()])
     back_button.pack(side="right", padx=10)
     nom_fichier = Path("sauvegarde_mastermind.json")
     nom_fichier.unlink()
@@ -467,28 +471,32 @@ def end_game():  # inspiree
 
 def back_main_menu():
     '''retour au menu principal'''
-    global Mastermind_image, bg  # garder reference image pour pas avoir un garbage
+    global Mastermind_image, bg  # garder ref image pour pas avoir garbage
     for widget in root.winfo_children():
         widget.destroy()
     bg = tk.PhotoImage(file="photo/wood.png")
     label1 = tk.Label(root, image=bg) 
     label1.place(x=0, y=0, relwidth=1, relheight=1)
-    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg='#e5b38c')
+    mode1 = tk.Button(root, text="One Player Mode",
+                      command=mode_1_player, bg='#e5b38c')
     mode1.place(relx=0.46, rely=0.6)
-    mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players, bg='#e5b38c')
+    mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players,
+                      bg='#e5b38c')
     mode2.place(relx=0.46, rely=0.65)
     Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
-    MM_button.place(relx=0.20, rely=0.4)   
+    MM_button.place(relx=0.20, rely=0.4)
 
 
 partie = charger_partie()
 if partie is not None:
     affiche_ancienne_partie(partie)
 if partie is None:
-    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg='#e5b38c')
+    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player,
+                      bg='#e5b38c')
     mode1.place(relx=0.40, rely=0.6)
-    mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players, bg='#e5b38c')
+    mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players,
+                      bg='#e5b38c')
     mode2.place(relx=0.40, rely=0.65)
     Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
