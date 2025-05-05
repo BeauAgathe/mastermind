@@ -499,4 +499,4 @@ if partie is None:
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
     MM_button.place(relx=0.20, rely=0.4)
 
-root.mainloop()
+root.mainloop() 
