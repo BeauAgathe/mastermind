@@ -5,6 +5,8 @@ import random as rd
 import json
 from pathlib import Path
 from tkinter import messagebox
+import math 
+
 
 # les couleurs qu'on peut utiliser dans le jeu:
 red = "#EF476F"
@@ -445,6 +447,7 @@ def end_game():  #inspiree
     if GAGNE==True:
         labelg=tk.Label(dialog, text="BRAVOO! Vous avez gagné!",font=("Arial",15))
         labelg.pack(pady=15)
+        fireworks()
     else:
         labelf=tk.Label(dialog,text="Vous avez perdu", font=("Arial",12))
         labelf.pack(pady=15)
@@ -458,6 +461,40 @@ def end_game():  #inspiree
     back_button.pack(side="right", padx=10)
     nom_fichier = Path("sauvegarde_mastermind.json")
     nom_fichier.unlink()
+
+
+def fireworks():
+    canvas = tk.Canvas(root, width=root.winfo_width(), height=root.winfo_height(),
+                       highlightthickness=0, bg="pink", bd=0)
+    canvas.place(x=0, y=0)
+
+    explosions = []
+
+    for _ in range(24):  # Trois feux d'artifice
+        cx = rd.randint(100, root.winfo_width() - 100)
+        cy = rd.randint(100, root.winfo_height() // 2)
+        color = rd.choice(["red", "blue", "yellow", "orange", "purple", "cyan", "lime"])
+        particles = []
+
+        for angle in range(0, 360, 15):
+            radians = math.radians(angle)
+            dx = math.cos(radians) * 2
+            dy = math.sin(radians) * 2
+            dot = canvas.create_oval(cx, cy, cx+4, cy+4, fill=color, outline="")
+            particles.append((dot, dx, dy))
+
+        explosions.append(particles)
+
+    def animate():
+        for particles in explosions:
+            for dot, dx, dy in particles:
+                canvas.move(dot, dx, dy)
+        root.after(20, animate)
+
+    animate()
+
+    # Supprimer après 2.5 secondes
+    root.after(5000, canvas.destroy)
 
 
 def back_main_menu():
@@ -489,5 +526,7 @@ if partie is None:
     Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
     MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
     MM_button.place(relx=0.20, rely=0.4)
+
+
 
 root.mainloop()

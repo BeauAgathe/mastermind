@@ -160,8 +160,6 @@ def new_game():
     for widget in root.winfo_children():
         widget.destroy()
     bg = tk.PhotoImage(file="photo/wood.png")
-    label1 = tk.Label(root, image=bg)
-    label1.place(x=0, y=0, relwidth=1, relheight=1)
     create_canvas(root)
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
@@ -370,6 +368,7 @@ def help_me():
             hint[i] = "noir"
     str_hint = "Vous pouvez essayer le code: " + str(hint)
     messagebox.showinfo("Aide", str_hint)
+    
 
 
 def change_color_secret(coulor_button):
@@ -406,7 +405,8 @@ def choose_secret_code():
         boutton = tk.Button(window_code, text='        ', bg=couleur,
                             command=lambda c=couleur: change_color_secret(c))
         boutton.pack(side=tk.LEFT, padx=5)
-
+    label_code_secret = tk.Label(window_code, text="", font=(14))
+    label_code_secret.pack(pady=10)
     enregistrer_button = tk.Button(window_code,
                                    text="Enregistrer Code Secret",
                                    command=lambda: [window_code.destroy(), new_game()], bg = '#d78a4e', fg = '#59230f')
@@ -453,7 +453,7 @@ def end_game():  # inspiree
                           font=("Times New Roman", 15), bg = '#e5b38c', fg = '#59230f')
         labelg.pack(pady=15)
     else:
-        labelf = tk.Label(dialog, text="Vous avez perdu", font=("Times New Roman", 15), bg = '#59230f')
+        labelf = tk.Label(dialog, text="Vous avez perdu", font=("Arial", 12))
         labelf.pack(pady=15)
     button_frame = tk.Frame(dialog, bg ='#d78a4e' )
     button_frame.pack(pady=10)
