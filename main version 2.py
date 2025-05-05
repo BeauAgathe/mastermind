@@ -323,7 +323,7 @@ def create_saved_canvas(tentatives):
         canva.grid(row=i+1, column=2, pady=5)
         canvas.append(canva)
         for h in range(4):
-            color = tentatives[i - 1][h]
+            color = tentatives[i][h]
             center_x = 50 + 60*h
             center_y = 25
             circle = draw_cercle(center_x, center_y, canva, color)
