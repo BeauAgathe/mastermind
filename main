@@ -474,28 +474,32 @@ def back_main_menu():
     global Mastermind_image, bg  # garder ref image pour pas avoir garbage
     for widget in root.winfo_children():
         widget.destroy()
-    bg = tk.PhotoImage(file="photo/wood.png")
-    label1 = tk.Label(root, image=bg) 
-    label1.place(x=0, y=0, relwidth=1, relheight=1)
-    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg='#e5b38c')
-    mode1.place(relx=0.46, rely=0.6)
-    mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players, bg='#e5b38c')
-    mode2.place(relx=0.46, rely=0.65)
-    Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
-    MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
-    MM_button.place(relx=0.20, rely=0.4)
+
+    bg = tk.PhotoImage( file = "photo/wood.png")
+    label1 = tk.Label( root, image = bg) 
+    label1.place(x = 0,y = 0, relwidth=1, relheight=1)
+    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg = '#d78a4e', fg = '#59230f')
+    mode1.place(relx=0.40, rely=0.55)
+    mode2 = tk.Button(root, text="Two Player Mode", command=mode_2_players, bg = '#d78a4e', fg = '#59230f')
+    mode2.place(relx=0.40, rely=0.60)
+    border_color = tk.Frame(root, background="#d78a4e")
+    label = tk.Label(border_color, text="Mastermind", font= ('Times New Roman', 50 , 'bold'), bd=0, bg = '#59230f' , fg = '#d78a4e')
+    label.pack(padx=1, pady=1)
+    border_color.pack(padx=40, pady=275)
+
 
 
 partie = charger_partie()
 if partie is not None:
     affiche_ancienne_partie(partie)
 if partie is None:
-    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg='#e5b38c')
-    mode1.place(relx=0.40, rely=0.6)
-    mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players, bg='#e5b38c')
-    mode2.place(relx=0.40, rely=0.65)
-    Mastermind_image = tk.PhotoImage(file="photo/mastermind_game_logo1 (1).png")
-    MM_button = tk.Button(root, image=Mastermind_image, borderwidth=0)
-    MM_button.place(relx=0.20, rely=0.4)
+    mode1 = tk.Button(root, text="One Player Mode", command=mode_1_player, bg = '#d78a4e', fg = '#59230f')
+    mode1.place(relx=0.40, rely=0.55)
+    mode2 = tk.Button(root, text="Two Players Mode", command=mode_2_players, bg = '#d78a4e', fg = '#59230f')
+    mode2.place(relx=0.40, rely=0.60)
+    border_color = tk.Frame(root, background="#d78a4e")
+    label = tk.Label(border_color, text="Mastermind", font= ('Times New Roman', 50 , 'bold'), bd=0, bg = '#59230f' , fg = '#d78a4e')
+    label.pack(padx=1, pady=1)
+    border_color.pack(padx=40, pady=275)
 
 root.mainloop()
