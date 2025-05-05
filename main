@@ -187,7 +187,6 @@ def new_game():
     check_button = tk.Button(root, image=home_image, borderwidth=0,
                              command=back_main_menu, bg='#e5b38c')
     check_button.grid(row=10, column=4)
-    create_texte()
     if GAGNE is True:
         display_text("Gagné! Bravo")
         return None
@@ -223,12 +222,10 @@ def check():
         liste_feedbacks.append(feedback[:])
         display_feedback(correct_positions, misplaced_positions, current_canva)
         if correct_positions == 4:
-            display_text("You win!")
             global GAGNE
             GAGNE = True
             end_game()
         elif current_canva == 9:
-            display_text("Out of Attemps!")  # checkkkk
             end_game()
             current_canva = 0
             clicked_colors.clear()
@@ -391,25 +388,28 @@ def choose_secret_code():
     global window_code
     window_code = tk.Tk()
     window_code.title("CHOISIR CODE SECRET")
+    window_code.configure(bg='#e5b38c')
     global canva_secret, clicked_colors, current_circle, vide_circles, cercles2
     cercles2 = []
     vide_circles = [None, None, None, None]
     clicked_colors = []
     current_circle = 0
-    canva_secret = tk.Canvas(window_code, width=400, height=80)
+    canva_secret = tk.Canvas(window_code, width=400, height=80, bg = '#d78a4e')
     canva_secret.pack(pady=20)
     for i in range(4):
         cercle = canva_secret.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
-                                          outline="black", width=2,
-                                          fill="white")
+                                          outline="#59230f", width=2,
+                                          fill="#e5b38c")
         cercles2.append(cercle)
     for couleur in colors:
-        boutton = tk.Button(window_code, text=couleur.capitalize(), bg=couleur,
+        boutton = tk.Button(window_code, text='        ', bg=couleur,
                             command=lambda c=couleur: change_color_secret(c))
         boutton.pack(side=tk.LEFT, padx=5)
+    label_code_secret = tk.Label(window_code, text="", font=(14))
+    label_code_secret.pack(pady=10)
     enregistrer_button = tk.Button(window_code,
                                    text="Enregistrer Code Secret",
-                                   command=lambda: [window_code.destroy(), new_game()])
+                                   command=lambda: [window_code.destroy(), new_game()], bg = '#d78a4e', fg = '#59230f')
     enregistrer_button.pack(pady=10)
     window_code.mainloop()
     if len(clicked_colors) == 4:
@@ -444,23 +444,24 @@ def end_game():  # inspiree
     dialog = tk.Toplevel(root)
     dialog.title("Partie terminée !")
     dialog.geometry("500x200")
+    dialog.configure(bg='#d78a4e')
     label = tk.Label(dialog, text="La partie est terminée.",
-                     font=("Arial", 12))
+                     font=("Times New Roman", 12), bg ='#e5b38c', fg = '#59230f')
     label.pack(pady=20)
     if GAGNE is True:
         labelg = tk.Label(dialog, text="BRAVOO! Vous avez gagné!",
-                          font=("Arial", 15))
+                          font=("Times New Roman", 15), bg = '#e5b38c', fg = '#59230f')
         labelg.pack(pady=15)
     else:
-        labelf = tk.Label(dialog, text="Vous avez perdu", font=("Arial", 15))
+        labelf = tk.Label(dialog, text="Vous avez perdu", font=("Arial", 12))
         labelf.pack(pady=15)
-    button_frame = tk.Frame(dialog)
+    button_frame = tk.Frame(dialog, bg ='#d78a4e' )
     button_frame.pack(pady=10)
     replay_button = tk.Button(button_frame, text="Rejouer", width=10,
-                              command=lambda: [dialog.destroy(), mode_2_players()])
+                              command=lambda: [dialog.destroy(), mode_2_players()], bg = '#e5b38c')
     replay_button.pack(side="left", padx=10)
     back_button = tk.Button(button_frame, text="Menu principal", width=15,
-                            command=lambda: [dialog.destroy(), back_main_menu()])
+                            command=lambda: [dialog.destroy(), back_main_menu()], bg = '#e5b38c')
     back_button.pack(side="right", padx=10)
     nom_fichier = Path("sauvegarde_mastermind.json")
     nom_fichier.unlink()
