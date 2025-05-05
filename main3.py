@@ -377,7 +377,7 @@ def help_me():
         if color == "#073B4C":
             hint[i] = "noir"
     str_hint = "Vous pouvez essayer le code: " + str(hint)
-    messagebox.showinfo("Aide", str_hint)
+    messagebox.showinfo("Aide", str_hint)    #pris de ChatGPT
 
 
 def change_color_secret(coulor_button):
@@ -447,9 +447,9 @@ def mode_2_players():
     new_game()
 
 
-def end_game():  # inspiree
+def end_game():  
     '''la partie est terminée'''
-    dialog = tk.Toplevel(root)
+    dialog = tk.Toplevel(root)    #pris de ChatGPT
     dialog.title("Partie terminée !")
     dialog.geometry("500x200")
     dialog.configure(bg='#d78a4e')
@@ -467,7 +467,7 @@ def end_game():  # inspiree
     button_frame = tk.Frame(dialog, bg ='#d78a4e' )
     button_frame.pack(pady=10)
     replay_button = tk.Button(button_frame, text="Rejouer", width=10,
-                              command=lambda: [dialog.destroy(), mode_2_players()], bg = '#e5b38c')
+                              command=lambda: [dialog.destroy(), mode_2_players()], bg = '#e5b38c')   #pris de chatGPT
     replay_button.pack(side="left", padx=10)
     back_button = tk.Button(button_frame, text="Menu principal", width=15,
                             command=lambda: [dialog.destroy(), back_main_menu()], bg = '#e5b38c')
@@ -546,3 +546,5 @@ if partie is None:
     border_color.pack(padx=40, pady=275)
 
 root.mainloop()
+
+#De temps en temps, on a eu de l'aide de L'oncle de Khaola, frere de Agathe et ChatGPT.
