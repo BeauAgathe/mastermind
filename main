@@ -189,7 +189,6 @@ def new_game():
     check_button = tk.Button(root, image=home_image, borderwidth=0,
                              command=back_main_menu, bg='#e5b38c')
     check_button.grid(row=10, column=4)
-    create_texte()
     if GAGNE is True:
         display_text("Gagné! Bravo")
         return None
@@ -225,12 +224,10 @@ def check():
         liste_feedbacks.append(feedback[:])
         display_feedback(correct_positions, misplaced_positions, current_canva)
         if correct_positions == 4:
-            display_text("You win!")
             global GAGNE
             GAGNE = True
             end_game()
         elif current_canva == 9:
-            display_text("Out of Attemps!")  # checkkkk
             end_game()
             current_canva = 0
             clicked_colors.clear()
@@ -449,22 +446,22 @@ def end_game():  # inspiree
     dialog.geometry("500x200")
     dialog.configure(bg='#d78a4e')
     label = tk.Label(dialog, text="La partie est terminée.",
-                     font=("Arial", 12))
+                     font=("Times New Roman", 12), bg ='#e5b38c', fg = '#59230f')
     label.pack(pady=20)
     if GAGNE is True:
         labelg = tk.Label(dialog, text="BRAVOO! Vous avez gagné!",
-                          font=("Arial", 15))
+                          font=("Times New Roman", 15), bg = '#e5b38c', fg = '#59230f')
         labelg.pack(pady=15)
     else:
-        labelf = tk.Label(dialog, text="Vous avez perdu", font=("Arial", 15))
+        labelf = tk.Label(dialog, text="Vous avez perdu", font=("Times New Roman", 15), bg = '#59230f')
         labelf.pack(pady=15)
-    button_frame = tk.Frame(dialog)
+    button_frame = tk.Frame(dialog, bg ='#d78a4e' )
     button_frame.pack(pady=10)
     replay_button = tk.Button(button_frame, text="Rejouer", width=10,
-                              command=lambda: [dialog.destroy(), mode_2_players()])
+                              command=lambda: [dialog.destroy(), mode_2_players()], bg = '#e5b38c')
     replay_button.pack(side="left", padx=10)
     back_button = tk.Button(button_frame, text="Menu principal", width=15,
-                            command=lambda: [dialog.destroy(), back_main_menu()])
+                            command=lambda: [dialog.destroy(), back_main_menu()], bg = '#e5b38c')
     back_button.pack(side="right", padx=10)
     nom_fichier = Path("sauvegarde_mastermind.json")
     nom_fichier.unlink()
