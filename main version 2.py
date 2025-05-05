@@ -311,7 +311,7 @@ def create_saved_canvas(tentatives):
     circles = []
     canvas = []
     for i in range(current_canva):
-        canva = tk.Canvas(root, width=350, height=50, bg="#e5b38c")
+        canva = tk.Canvas(root, width=350, height=50, bg="#d78a4e")
         canva.grid(row=i+1, column=2, pady=5)
         canvas.append(canva)
         for h in range(4):
@@ -322,7 +322,7 @@ def create_saved_canvas(tentatives):
             circles.append(circle)
         empty_circles.append(circles)
     for k in range(current_canva + 1, 11):
-        canva = tk.Canvas(root, width=350, height=50, bg= "#e5b38c")
+        canva = tk.Canvas(root, width=350, height=50, bg= "#d78a4e")
         canva.grid(row=k, column=2, pady=5)
         canvas.append(canva)
         for j in range(4):
