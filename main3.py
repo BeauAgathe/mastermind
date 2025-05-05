@@ -26,6 +26,8 @@ label1 = tk.Label(root, image=bg)
 label1.place(x=0, y=0, relwidth=1, relheight=1)
 
 # variables de jeu
+nbr_couleurs=4
+nbr_essaies=10
 canvas = []
 empty_circles = []
 clicked_colors = []
@@ -45,14 +47,15 @@ root.columnconfigure(3, weight=1)
 
 def create_canvas(root):
     '''fabrique les 10 canvas avec les emplacements dedans'''
+    global nbr_couleurs, nbr_essaies
     global circles, canvas
     circles = []
     canvas = []
-    for i in range(1, 11):
+    for i in range(1, nbr_essaies+1):
         canva = tk.Canvas(root, width=325, height=50, bg="#d78a4e")
         canva.grid(row=i, column=2, pady=5)
         canvas.append(canva)
-        for j in range(4):
+        for j in range(nbr_couleurs):
             center_x = 50 + 60*j
             center_y = 25
             circle = draw_cercle(center_x, center_y, canva, '#e5b38c')
@@ -92,10 +95,10 @@ def display_text(texte):
 
 def change_color_circle(coulor_button):
     '''quand on clique sur un boutton ça change la couleur du cercle'''
-    global current_canva, current_circle
-    if len(clicked_colors) < 4:
+    global current_canva, current_circle,nbr_couleurs, nbr_essaies
+    if len(clicked_colors) < nbr_couleurs:
         clicked_colors.append(coulor_button)
-    if current_canva < 10 and current_circle < 4:
+    if current_canva < nbr_essaies and current_circle < nbr_couleurs:
         canva = canvas[current_canva]
         canva.itemconfig(empty_circles[current_canva][current_circle],
                          fill=clicked_colors[-1])
@@ -106,12 +109,12 @@ def change_color_circle(coulor_button):
 
 def compare_codes(guess, secret):
     """Compare le code du joueur avec le code secret(compare la position)"""
-    correct_positions = sum([1 for i in range(4) if guess[i] == secret[i]])
+    correct_positions = sum([1 for i in range(nbr_couleurs) if guess[i] == secret[i]])
 # va rajouter 1 a chaque qu'une couleur est dans la bonne position.
     misplaced_positions = 0
     secret_copy = secret[:]
     guess_copy = guess[:]
-    for i in range(4):
+    for i in range(nbr_couleurs):
         if guess[i] == secret[i]:
             secret_copy[i] = None
             guess_copy[i] = None
@@ -167,7 +170,7 @@ def new_game():
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
                             command=save, bg='#e5b38c')
-    sauvegarder.grid(column=2, row=12)
+    sauvegarder.grid(column=2, row=nbr_essaies+2)
     global found_positions, found_colors
     found_positions = [None, None, None, None]
     found_colors = []
@@ -222,11 +225,11 @@ def check():
         feedback = [correct_positions, misplaced_positions]
         liste_feedbacks.append(feedback[:])
         display_feedback(correct_positions, misplaced_positions, current_canva)
-        if correct_positions == 4:
+        if correct_positions == nbr_couleurs:
             global GAGNE
             GAGNE = True
             end_game()
-        elif current_canva == 9:
+        elif current_canva == nbr_essaies-1:
             end_game()
             current_canva = 0
             clicked_colors.clear()
@@ -286,13 +289,13 @@ def affiche_ancienne_partie(partie):
     create_buttons()
     sauvegarder = tk.Button(root, text="Sauvegarder la partie",
                             command=save, bg='#e5b38c')
-    sauvegarder.grid(column=2, row=12)
+    sauvegarder.grid(column=2, row=nbr_essaies+2)
     hint = tk.Button(root, text="aide", command=help_me, bg='#e5b38c')
     hint.grid(column=4, row=12)
     global restart_image, back_image, check_image, home_image
     restart_image = tk.PhotoImage(file="photo/replay2.png")
     button_restart = tk.Button(root, image=restart_image, borderwidth=0,
-                               command=new_game, bg='#e5b38c')
+                               command=newww, bg='#e5b38c')
     button_restart.grid(row=9, column=4)
     back_image = tk.PhotoImage(file="photo/goback2.png")
     button_back = tk.Button(root, image=back_image, borderwidth=0,
@@ -308,10 +311,17 @@ def affiche_ancienne_partie(partie):
     check_button.grid(row=10, column=4)
     if GAGNE is True:
         return None
-    if current_canva == 10 and GAGNE is False:
+    if current_canva == nbr_essaies and GAGNE is False:
         return None
 
-
+def newww():
+    if mode == 1:
+        new_game()
+        return None
+    if mode == 2:
+        mode_2_players()
+        return None  
+    
 def create_saved_canvas(tentatives, liste_feedbacks):
     '''pour chaque tentative, on colorie les cercles du canva'''
     global circles, canvas
@@ -321,7 +331,7 @@ def create_saved_canvas(tentatives, liste_feedbacks):
         canva = tk.Canvas(root, width=350, height=50, bg="#d78a4e")
         canva.grid(row=i+1, column=2, pady=5)
         canvas.append(canva)
-        for h in range(4):
+        for h in range(nbr_couleurs):
             color = tentatives[i][h]
             center_x = 50 + 60*h
             center_y = 25
@@ -329,11 +339,11 @@ def create_saved_canvas(tentatives, liste_feedbacks):
             circles.append(circle)
         empty_circles.append(circles)
         display_feedback(liste_feedbacks[i][0], liste_feedbacks[i][1], i)
-    for k in range(current_canva + 1, 11):
+    for k in range(current_canva + 1, nbr_essaies+1):
         canva = tk.Canvas(root, width=350, height=50, bg="#d78a4e")
         canva.grid(row=k, column=2, pady=5)
         canvas.append(canva)
-        for j in range(4):
+        for j in range(nbr_couleurs):
             center_x = 50 + 60*j
             center_y = 25
             circle = draw_cercle(center_x, center_y, canva, "#e5b38c")
@@ -344,13 +354,13 @@ def create_saved_canvas(tentatives, liste_feedbacks):
 def help_me():
     '''renvoit un code qui marche avec les infos trouvées par le joueur'''
     hint = [None, None, None, None]
-    for i in range(4):
+    for i in range(nbr_couleurs):
         if found_positions[i] is None:
             n = rd.randint(0, len(found_colors))
             hint[i] = found_colors[n]
         else:
             hint[i] = found_positions[i]
-    for i in range(4):
+    for i in range(nbr_couleurs):
         color = hint[i]
         if color == "#EF476F":
             hint[i] = "rouge"
@@ -372,7 +382,7 @@ def change_color_secret(coulor_button):
     '''quand on clique sur un boutton ça change la couleur du cercle'''
     global current_circle
     clicked_colors.append(coulor_button)
-    if current_circle < 4:
+    if current_circle < nbr_couleurs:
         canva_secret.itemconfig(cercles2[current_circle],
                                 fill=clicked_colors[-1])
         current_circle += 1
@@ -393,7 +403,7 @@ def choose_secret_code():
     current_circle = 0
     canva_secret = tk.Canvas(window_code, width=400, height=80, bg = '#d78a4e')
     canva_secret.pack(pady=20)
-    for i in range(4):
+    for i in range(nbr_couleurs):
         cercle = canva_secret.create_oval(50 + i * 80, 20, 90 + i * 80, 60,
                                           outline="#59230f", width=2,
                                           fill="#e5b38c")
@@ -408,14 +418,14 @@ def choose_secret_code():
                                    command=lambda: [window_code.destroy(), new_game()], bg = '#d78a4e', fg = '#59230f')
     enregistrer_button.pack(pady=10)
     window_code.mainloop()
-    if len(clicked_colors) == 4:
+    if len(clicked_colors) == nbr_couleurs:
         return clicked_colors
 
 
 def create_secret_code():
     '''fabrique aléatoirement un code couleur à deviner'''
     The_secret_code = []
-    while len(The_secret_code) < 4:
+    while len(The_secret_code) < nbr_couleurs:
         The_secret_code.append(colors[rd.randint(0, 5)])
     return The_secret_code
 
